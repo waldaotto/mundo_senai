@@ -1,6 +1,7 @@
 <?php
 
-include_once __DIR__.'/App/Core/database/Connection.php';
+include __DIR__.'/../vendor/autoload.php';
+
 use App\Core\database\Connection;
 
 if (session_status() == PHP_SESSION_NONE){
@@ -8,8 +9,6 @@ if (session_status() == PHP_SESSION_NONE){
 }
 
 if(isset($_SESSION['user_id'])){
-    harder("location: "+__DIR__.+"/App/Views/Home.php");
+    header("Location: ",__DIR__.+"/App/Views/Home.php");
     exit();
 }
-
-
