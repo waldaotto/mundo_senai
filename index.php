@@ -3,34 +3,13 @@
 include_once __DIR__.'/App/Core/database/Connection.php';
 use App\Core\database\Connection;
 
-$con = new Connection()
-?>
+if (session_status() == PHP_SESSION_NONE){
+    session_start();
+}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <pre>
-        <h2>Instancia</h2>
-        <?php
-        var_dump($con)
-        ?>
-    </pre>
-    <pre>
-        <h2>Conexao</h2>
-        <?php
-        var_dump($con->connect())
-        ?>
-    </pre>
-    <pre>
-        <h2>deconexao</h2>
-        <?php
-        var_dump($con->disconnect())
-        ?>
-    </pre>
-</body>
-</html>
+if(isset($_SESSION['user_id'])){
+    harder("location: "+__DIR__.+"/App/Views/Home.php");
+    exit();
+}
+
+
