@@ -23,7 +23,6 @@ abstract class Model{
 
     public function __construct() {
 
-            $this->connection = new Connection();
             $this->cursor = new Connection()->connect();
         }
 
