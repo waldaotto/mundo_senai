@@ -14,16 +14,16 @@ use PDOException;
 abstract class Model{
 
     protected PDO $cursor;
-    protected Connection $connection;
     protected $primaryKey = "id";
     /**
      * @var String deve ser sobrescrita na classe filha.
      */
-    protected String $table;
+    protected string $table;
 
     public function __construct() {
 
-            $this->cursor = new Connection()->connect();
+            $connection = new Connection();
+            $this->cursor = $connection->connect();
         }
 
      /**
@@ -101,6 +101,11 @@ abstract class Model{
         return $stmt->fetch();
     }
 
+    /**
+     * Realiza a inserção de novos dados dentro da tabela.
+     * 
+     * @example $this->update(16,['nome'=>$usuario,'senha"=>12345]);
+     */
     public function update(int $id, array $data) {
 
         $fields = [];
@@ -119,6 +124,11 @@ abstract class Model{
             return $stmt->execute($data);
         }
 
+        /**
+         * Realiza a ação de delete de alguma informação do banco de dados pelo ID.
+         * 
+         * @param int $id ID a ser deletado.
+         */
          public function delete(int $id){
 
             $stmt = $this->cursor->prepare("DELETE FROM {$this->table} WHERE {$this->primaryKey} = :id");
