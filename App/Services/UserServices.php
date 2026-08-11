@@ -23,9 +23,17 @@ class UserServices {
         if ($usuario["senha"] != $password)
             return false;
 
+        session_start();
         $_SESSION["user_id"] = $usuario["id"];
         return $usuario["id"];
 
+    }
+
+    public function logout() {
+
+        session_abort();
+        header("Location: ../Views/login.php");
+        exit();
     }
 
 }
