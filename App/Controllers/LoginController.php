@@ -20,6 +20,10 @@ class LoginController {
         $this->service = new UserServices();
     }
 
+    public function index(){
+        return require __DIR__."App/Views/login.php";
+    }
+
     public function validate(){
 
         $user_id = $this->service->login($this->usuario,$this->senha);

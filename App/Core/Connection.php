@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\database;
+namespace App\Core;
 use PDO;
 /**
  * Estabelece a coneção com o banco de dados.
@@ -14,7 +14,7 @@ class Connection {
 
     public function __construct() {
         // Carrega as configurações durante a instanciação da classe
-        $this->config = require __DIR__ . '/../../Core/env.php';
+        $this->config = require_once __DIR__ . '/env.php';
     }
 
     /**

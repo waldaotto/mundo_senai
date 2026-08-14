@@ -1,9 +1,9 @@
 <?php
 
-if (!isset($_SESSION["user_id"])){
+if (!(isset($_SESSION["usuario_id"]))) {
+    header('Location: /mundo_senai/login');
 
-    header("Location: login.php");
-    exit();
+    exit;
 }
 
 

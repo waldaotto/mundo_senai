@@ -15,6 +15,10 @@ class UserServices {
 
     public function login(string $user, string $password){
 
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+
         $usuario = $this->user_model->find_by_field("nome",$user);
 
         if (!$usuario)
@@ -23,8 +27,7 @@ class UserServices {
         if ($usuario["senha"] != $password)
             return false;
 
-        session_start();
-        $_SESSION["user_id"] = $usuario["id"];
+        $_SESSION["usuario_id"] = $usuario["id"];
         return $usuario["id"];
 
     }
