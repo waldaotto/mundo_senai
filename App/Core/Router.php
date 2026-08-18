@@ -35,8 +35,13 @@ class Router
 
         [$controller, $action] = $this->routes[$method][$uri];
 
-        $controller = new $controller();
+        $controller = new $controller($this);
 
         return $controller->$action();
+    }
+
+    public function url(string $uri): string
+    {
+        return '/mundo_senai' . $uri;
     }
 }

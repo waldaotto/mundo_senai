@@ -6,6 +6,10 @@ use App\Core\Router;
 use App\Controllers\HomeController;
 use App\Controllers\LoginController;
 
+if (session_status() !== PHP_SESSION_ACTIVE){
+    session_start();
+}
+
 $router = new Router();
 
 $router->get('/', [HomeController::class, 'index']);

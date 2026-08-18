@@ -1,9 +1,24 @@
 <?php
 
-if (!(isset($_SESSION["usuario_id"]))) {
-    header('Location: /mundo_senai/login');
 
-    exit;
+if (!isset($_SESSION["usuario_id"])) {
+
+    $basePath = '/mundo_senai';
+
+    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    $uri = str_replace($basePath, '', $uri);
+
+    if ($uri === '') {
+        $uri = '/login';
+    }
+
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    $router->url($uri, $method);
+
+    var_dump($router);
+
 }
 
 
@@ -17,6 +32,6 @@ if (!(isset($_SESSION["usuario_id"]))) {
     <title>Document</title>
 </head>
 <body>
-    oi
+    merda
 </body>
 </html>
