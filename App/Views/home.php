@@ -15,7 +15,7 @@ if (!isset($_SESSION["usuario_id"])) {
 
     $method = $_SERVER['REQUEST_METHOD'];
 
-    $router->url($uri, $method);
+    $router->url($uri);
 
     var_dump($router);
 
