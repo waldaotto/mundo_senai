@@ -1,17 +1,20 @@
 <?php
 
 namespace App\Controllers;
+use App\Controllers\LoginController;
+use App\Views\Home;
 
 class HomeController {
 
-    public $router;
-
-    public function __construct($router) {
-        $this->router = $router;
-    }
+    
     public function index(){
 
-        $router = $this->router;
-        return require __DIR__."/../Views/home.php";
+        if (!isset($_SESSION["user_id"])){
+            $login = new LoginController();
+            $login->index();
+            return;
+        }
+
+        Home::view();
     }
 }

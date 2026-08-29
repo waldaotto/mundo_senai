@@ -24,11 +24,12 @@ class UserServices {
         if (!$usuario)
             return false;
         
-        if ($usuario["senha"] != $password)
+        if(!password_verify($password,password_hash($usuario['senha'],PASSWORD_DEFAULT))){
             return false;
+        }
 
         $_SESSION["usuario_id"] = $usuario["id"];
-        return $usuario["id"];
+            return $usuario["id"];
 
     }
 

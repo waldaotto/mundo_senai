@@ -2,6 +2,8 @@
 
 namespace App\Core;
 use PDO;
+use PDOException;
+
 /**
  * Estabelece a coneção com o banco de dados.
  * 
@@ -14,7 +16,7 @@ class Connection {
 
     public function __construct() {
         // Carrega as configurações durante a instanciação da classe
-        $this->config = require_once __DIR__ . '/env.php';
+        $this->config = require __DIR__ . '/env.php';
     }
 
     /**
@@ -40,7 +42,7 @@ class Connection {
                 $options
             );
         }catch(PDOException $e){
-            die( "Erro na conexão com servidor. $e->getMessage()");
+            die("Erro na conexão com servidor. {$e->getMessage()}");
         }
 
         return $this->pdo;
