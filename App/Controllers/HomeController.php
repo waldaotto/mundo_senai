@@ -9,12 +9,13 @@ class HomeController {
     
     public function index(){
 
-        if (!isset($_SESSION["user_id"])){
-            $login = new LoginController();
-            $login->index();
-            return;
-        }
+        // if (!isset($_SESSION["user_id"])){
+        //     $login = new LoginController();
+        //     $login->index();
+        //     return;
+        // }
 
-        Home::view();
+        // Home::view();
+        var_dump($_SERVER);
     }
 }
