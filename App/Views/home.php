@@ -13,7 +13,7 @@ class Home {
             <title>Document</title>
         </head>
         <body>
-            merda
+            Bem vindo ao site.
         </body>
         </html>
 <?php
