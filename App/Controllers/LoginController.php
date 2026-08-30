@@ -2,13 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Core\Controller;
 use App\Services\UserServices;
 use App\Views\Login;
 
 /**
  * Classe responsavel por fazer validaçòes de entrada e saída de dados para Login.
  */
-class LoginController {
+class LoginController extends Controller {
 
     private string $usuario;
     private string $senha;
@@ -19,22 +20,33 @@ class LoginController {
         $this->service = new UserServices();
     }
 
-    public function index(){
-        Login::view($this);
-
+    public function index($data = ""){
+        
+        $this->view('login',['mensagem'=>$data]);
     }
 
     public function validate(){
 
         $this->set_post();
+        $mensagem = "";
 
-        $user_id = $this->service->login($this->usuario,$this->senha);
+        if ((empty($this->usuario)) || (empty($this->senha))) {
+            $mensagem = "Preencha todos os campos!";
+        }
 
-        if (!$user_id)
-            return false;
+        else
+            {
 
-        return true;
-        
+            $user_id = $this->service->login($this->usuario,$this->senha);
+
+            if (!($user_id)){
+                $mensagem = "Nome de usuario ou senha incorretos";         
+            }
+            else {
+                $this->redirect('/');
+            }
+        }
+        $this->index($mensagem);
     }
 
     public function set_post(){

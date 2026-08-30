@@ -1,21 +1,19 @@
 <?php
 
 namespace App\Controllers;
-use App\Controllers\LoginController;
-use App\Views\Home;
+use App\Core\Controller;
 
-class HomeController {
+
+class HomeController extends Controller {
 
     
     public function index(){
 
-        // if (!isset($_SESSION["user_id"])){
-        //     $login = new LoginController();
-        //     $login->index();
-        //     return;
-        // }
+        if (!isset($_SESSION["user_id"])){
+            $this->redirect("login");
+        }
 
-        // Home::view();
-        var_dump($_SERVER);
+        $this->view('home');
+
     }
 }

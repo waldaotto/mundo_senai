@@ -13,7 +13,7 @@ class TagsServices {
         $this->model = new TagsModel;
     }
 
-    public function get_tags(array $filtros){
+    public function get_tags(mixed $filtros){
 
         if (empty($fitlros['campo']) || empty($filtros['valor'])){
             try{

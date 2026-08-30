@@ -1,10 +1,12 @@
 <?php
 namespace App\Controllers;
+
+use App\Core\Controller;
 use App\Views\Tags;
 use App\Services\TagsServices;
 use Exception;
 
-class TagsController {
+class TagsController extends Controller {
 
     public array $tags;
     public TagsServices $service;
@@ -14,7 +16,11 @@ class TagsController {
     }
 
     public function index(){
-        Tags::view($this);
+        $this->render_tags();
+        $data = [
+            'tags'=>$this->tags
+        ];
+        $this->view('tags',$data);
     }
 
     public function render_tags(){

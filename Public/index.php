@@ -1,20 +1,16 @@
 <?php
 
-include_once __DIR__ . '/../vendor/autoload.php';
 use App\Routes\Router;
-// use App\Controllers\HomeController;
+session_start();
 
+define('ROOT', dirname(__DIR__));
 
-
-// if (session_status() !== PHP_SESSION_ACTIVE){
-//     session_start();
-// }
-
-// $home = new HomeController();
-// $home->index();
+include_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../App/Routes/UrlHelper.php';
 
 Router::execute();
 ?>
+
 
 
 

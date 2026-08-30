@@ -1,22 +1,15 @@
 <?php
 namespace App\Views;
 
-class Home {
-
-    public static function view(){
 ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
-        </head>
-        <body>
-            Bem vindo ao site.
-        </body>
-        </html>
-<?php
-    }
-}
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="<?= url_to('/tags') ?>">Ver tags</a>
+</body>
+</html>

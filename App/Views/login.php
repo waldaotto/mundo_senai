@@ -1,43 +1,3 @@
-<?php
-namespace App\Views;
-use App\Controllers\LoginController;
-use Exception;
-
-class Login {
-
-    public static function view(LoginController $loginctrl){
-        $mensagem = "";
-        $id = null;
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST"){
-            $usuario = $_POST['usuario'] ?? '';
-            $senha = $_POST['senha'] ?? '';
-        }
-
-        if ((empty($usuario)) || (empty($senha))) {
-            $mensagem = "Preencha todos os campos!";
-        }
-        else{
-
-            try{
-                $id = $loginctrl->validate();
-            }
-            catch(Exception $e){
-
-                $mensagem = "Erro interno ao efetuar o login! $e";
-            }
-
-            if (!($id)){
-
-                $mensagem = "Nome de usuario ou senha incorretos";
-                    
-            } 
-            else{
-                Home::view();
-                return;
-            }
-        }
-    ?>
 
     <!DOCTYPE html>
     <html lang="pt">
@@ -65,6 +25,3 @@ class Login {
 
     </body>
     </html>
-<?php
-    }
-}
