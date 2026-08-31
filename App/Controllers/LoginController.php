@@ -11,6 +11,7 @@ use App\Views\Login;
  */
 class LoginController extends Controller {
 
+
     private string $usuario;
     private string $senha;
     private UserServices $service;
@@ -21,10 +22,17 @@ class LoginController extends Controller {
     }
 
     public function index($data = ""){
+
+        if (isset($_SESSION["user_id"])){
+            $this->redirect("/");
+        }
         
         $this->view('login',['mensagem'=>$data]);
     }
 
+    /**
+     * Realiza a validação de login.
+     */
     public function validate(){
 
         $this->set_post();

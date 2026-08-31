@@ -16,10 +16,14 @@ class TagsController extends Controller {
     }
 
     public function index(){
+
+        if (!isset($_SESSION["user_id"])){
+                $this->redirect("login");
+            }
+
         $this->render_tags();
-        $data = [
-            'tags'=>$this->tags
-        ];
+        $data = ['tags'=>$this->tags];
+
         $this->view('tags',$data);
     }
 
