@@ -1,4 +1,53 @@
-pre {
+
+body {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: center;
+
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.674);
+}
+th, td {
+  border: 1px solid #010101;
+  padding: 12px;
+  text-align: left;
+  text-align: center;
+}   
+
+th {
+    background-color: rgb(87, 87, 255);
+}
+
+tr:nth-child(even){
+    transition: background-color 0.6s;
+    background-color: rgb(236, 239, 248);
+}
+
+tr:hover{
+    background-color: rgb(211, 211, 211) ;
+}
+
+.searchtag {
+    width: 40%;
+    margin: 1rem;
+
+    background-color: rgb(204, 213, 245);
+    border: none;
+    color: rgb(40, 40, 40);
+}
+
+div {
+    width: 80%;
+    gap: 1rem;
+}
+
+.btn-searchtag{
+    background-color: rgb(88, 88, 88);
+    border: none;
+    color: rgb(229, 222, 222);
+
 }

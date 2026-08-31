@@ -35,11 +35,12 @@ class TagsController extends Controller {
             $this->tags_setter($this->service->get_tags($filtros));
         }
         catch(Exception $e){
-            return "Ocorreu um erro durante a conexão: $e";
+            echo "Ocorreu um erro durante a conexão: $e";
         }
     }
 
     public function tags_setter(array $value){
+    
         $this->tags = $value;
     }
 
@@ -47,14 +48,15 @@ class TagsController extends Controller {
 
          if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
-            $filtro = [
-                'campo'=> $_POST['campo'] ?? '',
-                'valor'=> $_POST['valor'] ?? ''
-            ]; 
+            $filtro = $_POST['searchtag'] ?? '';
 
             return $filtro;
         }
         
         return null;
+    }
+
+    public function search(){
+        $this->index();
     }
 }

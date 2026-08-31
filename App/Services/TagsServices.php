@@ -13,9 +13,9 @@ class TagsServices {
         $this->model = new TagsModel;
     }
 
-    public function get_tags(mixed $filtros){
+    public function get_tags(string $filtros){
 
-        if (empty($fitlros['campo']) || empty($filtros['valor'])){
+        if (empty($filtros)){
             try{
                 return $this->model->find_all();
             }
@@ -25,7 +25,8 @@ class TagsServices {
         }
 
         try{
-            return $this->model->find_by_field($filtros['campo'],$filtros['valor']);
+            
+            return [($this->model->find_by_field('rfid',$filtros))];
         }
         catch(Exception $e){
             throw new Exception($e,2);

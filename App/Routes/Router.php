@@ -36,7 +36,9 @@ class Router {
             ],
 
             'post' => [
-                '/login'=> fn()=> self::load('LoginController','validate')
+                '/login'=> fn()=> self::load('LoginController','validate'),
+                '/tags'=> fn()=> self::load('TagsController','search')
+            
             ]
         ];
     }
