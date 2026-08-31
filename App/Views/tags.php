@@ -5,7 +5,7 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Tags</title>
-            <link rel="stylesheet" href="<?= __DIR__."/../../Public/Assets/tags.css" ?>">
+            <link rel="stylesheet" href="<?= CSS_PATH.'/tags.css' ?>">
         </head>
         <body>
             <pre>

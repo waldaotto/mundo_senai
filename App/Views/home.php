@@ -10,6 +10,6 @@ namespace App\Views;
     <title>Document</title>
 </head>
 <body>
-    <a href="<?= url_to('/tags') ?>">Ver tags</a>
+    <a href="<?= url_to('/tags')?>">Ver tags</a>
 </body>
 </html>

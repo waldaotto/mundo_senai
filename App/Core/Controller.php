@@ -29,7 +29,7 @@ abstract class Controller
      */
     protected function view($viewName, $data = [])
     {
-        $viewFile = __DIR__."/../../App/Views/" . $viewName . '.php';
+        $viewFile = VIEWS_PATH. $viewName . '.php';
       
 
         if (file_exists($viewFile)) {
