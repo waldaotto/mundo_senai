@@ -3,7 +3,7 @@
 function url_to(string $destino, ?array $param = null)
 {
   
-  $url = ROOT.$destino;
+  $url = $destino;
   if($param != null)
   {
     foreach($param as $p){

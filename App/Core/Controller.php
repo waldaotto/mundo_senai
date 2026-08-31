@@ -30,7 +30,6 @@ abstract class Controller
     protected function view($viewName, $data = [])
     {
         $viewFile = VIEWS_PATH. $viewName . '.php';
-      
 
         if (file_exists($viewFile)) {
             // Transforma as chaves do array de dados em variáveis
