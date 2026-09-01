@@ -1,8 +1,6 @@
-Mundo Senai 2026
+# Mundo Senai 2026
 
-***Este projeto tem como finalidade o Mundo Senai de 2026. Consiste em uma aplicação web para monitoramento de uma esteira de produtos com RFID.***
-
----
+***Este projeto tem como finalidade o Mundo Senai de 2026. Consiste em uma aplicação web para monitoramento de uma esteira de produtos com RFID.**
 
 ## Sobre o Projeto
 
@@ -67,7 +65,6 @@ C:.
     └───composer/
 
 O projeto é uma adaptação de arquitetura MVC para MVCS, separando reponsabilidades entre Models, Views, Cotrollers e Services.
-
 
 ## Instalação
 
