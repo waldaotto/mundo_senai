@@ -31,9 +31,8 @@ class UserServices {
 
     public function logout() {
 
-        session_abort();
-        header("Location: /");
-        exit();
+        session_destroy();
+        
     }
 
 }

@@ -5,5 +5,5 @@ use App\Core\Model;
 
 class TagsModel extends Model {
 
-    protected string $table = 'registro_tags';
+    protected string $table = 'leituras_rfid';
 }

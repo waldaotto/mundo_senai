@@ -21,9 +21,11 @@ class TagsController extends Controller {
                 $this->redirect("login");
             }
 
+    
         $this->render_tags();
         $data = ['tags'=>$this->tags];
 
+        $this->view('header',['title'=>'Tags']);
         $this->view('tags',$data);
     }
 

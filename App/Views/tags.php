@@ -2,12 +2,10 @@
         <!DOCTYPE html>
         <html lang="pt-br">
         <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Tags</title>
-            <link rel="stylesheet" href="<?='Assets\\tags.css' ?>">
+            <link rel="stylesheet" href="<?=CSS_PATH.'tags.css' ?>">
         </head>
         <body>
+            <br>
             <div>
                 <form action="" method="post">
                     <input type="text" class="searchtag" id="searchtag" name="searchtag" placeholder="Pesquisar por TAGs">
@@ -17,7 +15,7 @@
             
                 <table>
                     <tr>
-                        <th>RFID</th>
+                        <th>id</th>
                         <th>DESTINO</th>
                         <th>STATUS</th>
                     </tr>
@@ -26,9 +24,9 @@
                     foreach ($tags as $tag){
                     ?>
                     <tr>
-                        <td><?= $tag['rfid'] ?></td>
-                        <td><?= $tag['destino'] == null ? "Não definido" : $tag['destino']?></td>
-                        <td><?= $tag['status_tag'] ?></td>
+                        <td><?= $tag['id'] ?></td>
+                        <td><?= $tag['tag_uid'] == null ? "Não definido" : $tag['tag_uid']?></td>
+                        <td><?= $tag['data_hora'] ?></td>
                     </tr>
                     <?php
                     }

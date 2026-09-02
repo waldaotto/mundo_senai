@@ -59,7 +59,7 @@ abstract class Controller
      */
     protected function redirect($url)
     {
-        header('Location: ' . $url);
+        header('Location:'. $url);
         exit();
     }
 }

@@ -51,7 +51,7 @@ class LoginController extends Controller {
                 $mensagem = "Nome de usuario ou senha incorretos";         
             }
             else {
-                $this->redirect('/');
+                $this->redirect('/mundo_senai/');
             }
         }
         $this->index($mensagem);
@@ -65,6 +65,13 @@ class LoginController extends Controller {
         }
 
         return;
+    }
+
+    public function logout(){
+
+        $this->service->logout();
+        header("Location: /mundo_senai/");
+        exit();
     }
 }
 

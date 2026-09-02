@@ -13,6 +13,7 @@ class HomeController extends Controller {
             $this->redirect("login");
         }
 
+        $this->view('header',['title'=>'Home']);
         $this->view('home');
 
     }

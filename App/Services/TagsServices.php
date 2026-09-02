@@ -26,7 +26,7 @@ class TagsServices {
 
         try{
             
-            return [($this->model->find_by_field('rfid',$filtros))];
+            return [($this->model->find_by_field('tag_uid',$filtros))];
         }
         catch(Exception $e){
             throw new Exception($e,2);
