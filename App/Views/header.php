@@ -10,7 +10,7 @@
         <ul>
             <li><a href="<?=url_to('/tags')?>">Tags</a></li>
             <li><a href="<?=url_to('/')?>">Home</a></li>
-            <li><a href="<?=url_to('/tags')?>">Extra</a></li>
+            <li><a href="<?=url_to('/leituras')?>">Leitura</a></li>
         </ul>
 
         <form action="logout" method="post">

@@ -9,3 +9,4 @@ define('CORE_PATH', APP_PATH."/Core/");
 define('MODELS_PATH', APP_PATH."/Models/");
 define('BASE_URL',$_SERVER['HTTP_HOST']);
 define('CSS_PATH',"/mundo_senai/Assets/css/");
+define('JS_PATH',"/mundo_senai/Assets/js/");

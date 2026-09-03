@@ -32,7 +32,8 @@ class Router {
             'get' => [
                 '/mundo_senai/'=> fn()=> self::load('HomeController','index'),
                 '/mundo_senai/login'=> fn()=> self::load('LoginController','index'),
-                '/mundo_senai/tags'=> fn()=> self::load('TagsController','index')
+                '/mundo_senai/tags'=> fn()=> self::load('TagsController','index'),
+                '/mundo_senai/leituras'=> fn()=> self::load('RfidController','index')
             ],
 
             'post' => [
