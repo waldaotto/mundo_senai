@@ -38,7 +38,8 @@ class Router {
             'post' => [
                 '/mundo_senai/login'=> fn()=> self::load('LoginController','validate'),
                 '/mundo_senai/tags'=> fn()=> self::load('TagsController','search'),
-                '/mundo_senai/logout'=> fn()=> self::load('LoginController','logout')
+                '/mundo_senai/logout'=> fn()=> self::load('LoginController','logout'),
+                '/mundo_senai/api/rfid'=> fn()=> self::load('RfidController','store')
             
             ]
         ];
