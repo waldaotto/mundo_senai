@@ -7,7 +7,7 @@ class RfidController extends Controller
  {
 
     public RfidService $service;
-    public array $last_insert;
+    public mixed $last_insert;
 
     public function __construct() {
         $this->service = new RfidService();
@@ -66,5 +66,12 @@ class RfidController extends Controller
         ]);
 
         $this->last_insert = $this->service->recebe_tag($rfid);
+    }
+
+    public function polling_get(){
+
+        echo json_encode([
+                'rfid'=>$this->last_insert
+            ]);
     }
 }
