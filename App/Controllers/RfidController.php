@@ -20,7 +20,7 @@ class RfidController extends Controller
         //     $this->redirect("/mundo_senai/");
         // }
 
-        $tag = (empty($this->last_insert)) ? ['empty'=>null] : $this->last_insert[0];
+        $tag = (empty($this->last_insert)) ? ['empty'=>1] : $this->last_insert[0];
         
         $this->view('header',['title'=>'Leituras']);
         $this->view('leituras',$tag);

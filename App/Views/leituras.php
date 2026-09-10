@@ -5,12 +5,13 @@
 <body>
     <div>
         <?php
-        if (isset($empty)){
+        if ($empty){
           ?>
           <h2>Nenhuma tag.</h2>
           <?php
         }
         else {
+          var_dump($empty);
         ?>
         <h2>ID: <?=$id?></h2>
         <h2>rfid: <?=$rfid?></h2>
