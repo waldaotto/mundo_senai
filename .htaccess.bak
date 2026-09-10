@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Permite acesso direto à pasta api/ (usada pelos ESP32)
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteRule ^ - [L]
+
+# Se o arquivo ou diretório pedido existir de verdade (css, js, imagens), serve direto
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Caso contrário, tudo passa pelo front controller
+RewriteRule ^ index.php [L]

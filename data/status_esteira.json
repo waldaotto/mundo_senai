@@ -1,0 +1,15 @@
+{
+    "timestamp": "2026-09-09T00:00:00-03:00",
+    "id_caixa": null,
+    "peso_g": 0.0,
+    "destino": "AGUARDANDO",
+    "status": "aguardando",
+    "estacao_ativa": true,
+    "esp_origem": null,
+    "contadores": {
+        "total": 0,
+        "rj": 0,
+        "sc": 0
+    },
+    "historico": []
+}

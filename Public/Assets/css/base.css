@@ -1,0 +1,71 @@
+/* ===================================================
+   base.css — reset e variáveis globais do projeto
+   =================================================== */
+
+:root {
+  --azul-marinho-950: #0a1220;
+  --azul-marinho-900: #0d1b2e;
+  --azul-marinho-800: #13253d;
+  --azul-marinho-700: #1b3151;
+  --azul-linha: #24405f;
+  --amarelo-senai: #ffcc00;
+  --azul-claro: #4fb6ff;
+  --texto-claro: #eaf1f8;
+  --texto-medio: #9db1c7;
+  --texto-fraco: #5f7a96;
+  --verde-ok: #35d17a;
+  --vermelho-erro: #ff5c5c;
+
+  --fonte-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --fonte-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-base);
+  background: var(--azul-marinho-950);
+  color: var(--texto-claro);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--azul-claro);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

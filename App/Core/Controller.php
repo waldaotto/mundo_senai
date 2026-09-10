@@ -1,65 +1,65 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core;
 
 /**
- * SimpleMVC - Controller Base
- * Os outros controllers herdarão desta classe.
+ * Controller base — fornece o método render() usado por todos os
+ * controllers para carregar uma View dentro do layout (header/footer).
  */
 abstract class Controller
 {
     /**
-     * Carrega um Model.
-     * @param string $modelName O nome do Model (ex: 'Produto')
-     * @return object A instância do Model
+     * Renderiza uma View dentro do layout padrão.
+     *
+     * @param string               $view  Nome do arquivo em App/Views (sem .php)
+     * @param array<string, mixed> $dados Variáveis disponíveis dentro da View
      */
-    protected function model($modelName)
+    protected function render(string $view, array $dados = []): void
     {
-        $className = 'App\\Models\\' . ucfirst($modelName);
-        if (class_exists($className)) {
-            return new $className();
+        // Extrai as variáveis para o escopo local (ex: $dados['produtos'] -> $produtos)
+        extract($dados, EXTR_SKIP);
+
+        $caminhoView = BASE_PATH . '/App/Views/' . $view . '.php';
+
+        if (!is_file($caminhoView)) {
+            http_response_code(500);
+            echo "Erro: View '{$view}' não encontrada em App/Views/.";
+            return;
         }
-        return null;
+
+        require BASE_PATH . '/App/Views/header.php';
+        require $caminhoView;
+        require BASE_PATH . '/App/Views/footer.php';
     }
 
     /**
-     * Renderiza uma View.
-     * @param string $viewName O nome da View (ex: 'produtos/index')
-     * @param array $data Dados a serem passados para a View
+     * Renderiza uma View "solta", sem o layout (header/footer).
+     * Útil para páginas com visual próprio, como o painel de telemetria.
      */
-    protected function view($viewName, $data = [])
+    protected function renderStandalone(string $view, array $dados = []): void
     {
-        $viewFile = VIEWS_PATH. $viewName . '.php';
+        extract($dados, EXTR_SKIP);
+        $caminhoView = BASE_PATH . '/App/Views/' . $view . '.php';
 
-        if (file_exists($viewFile)) {
-            // Transforma as chaves do array de dados em variáveis
-            // Ex: $data['produtos'] se torna a variável $produtos na view
-            extract($data);
-
-            // Garantir que $baseUrl esteja sempre disponível nas views.
-            // Alguns controllers não passam essa variável; usar BASE_PATH (se definido) ou string vazia.
-
-            // Inicia o buffer de saída para incluir o layout
-            ob_start();
-            require_once $viewFile;
-            $content = ob_get_clean(); // Pega o conteúdo da view
-
-            // Renderiza o layout completo
-             // require_once ROOT . '/app/Views/layouts/header.php';
-            echo $content;
-            // require_once ROOT . '/app/Views/layouts/footer.php';
-        } else {
-            die("Erro: View '{$viewName}' não encontrada.");
+        if (!is_file($caminhoView)) {
+            http_response_code(500);
+            echo "Erro: View '{$view}' não encontrada em App/Views/.";
+            return;
         }
+
+        require $caminhoView;
     }
 
     /**
-     * Redireciona o usuário para uma URL.
-     * @param string $url A URL de destino (ex: '/produtos')
+     * Responde em JSON e encerra a execução.
      */
-    protected function redirect($url)
+    protected function json(array $payload, int $status = 200): void
     {
-        header('Location:'. $url);
-        exit();
+        http_response_code($status);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
     }
 }

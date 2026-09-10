@@ -1,2 +1,5 @@
-env.php
-/vendor/
+vendor/
+data/status_esteira.json.tmp
+data/status_esteira.json.lock
+.DS_Store
+Thumbs.db
