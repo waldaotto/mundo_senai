@@ -19,9 +19,11 @@ class RfidController extends Controller
         // if (isset($_SESSION["user_id"])){
         //     $this->redirect("/mundo_senai/");
         // }
+
+        $tag = (empty($this->last_insert)) ? ['empty'=>null] : $this->last_insert[0];
         
         $this->view('header',['title'=>'Leituras']);
-        $this->view('leituras',($this->last_insert)[0]);
+        $this->view('leituras',$tag);
     }
 
     public function store(){

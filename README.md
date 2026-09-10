@@ -51,18 +51,18 @@ A versão final inclue a parte fiisica do projeto: esteira, sensores RFID e bra�
 
 ## Arquitetura
 
-C:.
-├───App/
-│   ├───Controllers/
-│   ├───Core/
-│   ├───Models/
-│   ├───Routes/
-│   ├───Services/
-│   └───Views/
-├───Public/
-│   └───Assets/
-└───vendor/
-    └───composer/
+C:.  
+├───App/  
+│   ├───Controllers/  
+│   ├───Core/  
+│   ├───Models/  
+│   ├───Routes/  
+│   ├───Services/  
+│   └───Views/  
+├───Public/  
+│   └───Assets/  
+└───vendor/  
+    └───composer/  
 
 O projeto é uma adaptação de arquitetura MVC para MVCS, separando reponsabilidades entre Models, Views, Cotrollers e Services.
 
