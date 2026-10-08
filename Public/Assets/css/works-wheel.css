@@ -1,0 +1,146 @@
+/* --- CABEÇALHO / HEADER --- */
+.site-header {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 60px;
+  background-color: #090d16;
+  border-bottom: 1px solid #1f293d;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+.site-header .logo {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-header nav a {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-left: 1.5rem;
+  transition: color 0.2s;
+}
+
+.site-header nav a:hover,
+.site-header nav a.active {
+  color: #ffffff;
+}
+
+/* --- CARROSSEL 3D / WORKS WHEEL --- */
+.works-wheel-section {
+  position: relative;
+  width: 100%;
+  /* Desconta exatamente a altura do header (60px) */
+  height: calc(100vh - 60px);
+  min-height: 480px;
+  background-color: #0d1117;
+  color: #ffffff;
+  overflow: hidden;
+  user-select: none;
+}
+
+.works-wheel-stage {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  outline: none;
+}
+
+.works-wheel-stage:active {
+  cursor: grabbing;
+}
+
+.works-wheel-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+}
+
+.works-wheel-card {
+  position: absolute;
+  backface-visibility: hidden;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+
+.works-wheel-card-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.7);
+  background: #161b22;
+  border: 1px solid #30363d;
+  position: relative;
+}
+
+.works-wheel-card-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.works-wheel-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  pointer-events: none;
+  letter-spacing: -0.04em;
+  opacity: 1;
+  color: #f0f6fc;
+}
+
+.works-wheel-title {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  font-weight: 700;
+  pointer-events: none;
+  opacity: 0;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.works-wheel-index {
+  position: absolute;
+  top: 6%;
+  right: 3%;
+  text-align: right;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+}
+
+.works-wheel-index button {
+  background: none;
+  border: none;
+  color: #8b949e;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  padding: 4px 0;
+  transition: color 0.2s, font-weight 0.2s;
+}
+
+.works-wheel-index button.active {
+  color: #58a6ff;
+  font-weight: 700;
+}

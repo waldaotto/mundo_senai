@@ -17,13 +17,11 @@ async function verificarRFID()
          * Faz uma requisição GET para
          * a API do seu servidor.
          */
-        const resposta = await fetch(
-            "http://serversenai.local/mundo_senai/api/rfid",
-            {
-                method: "GET",
-                cache: "no-store"
-            }
-        );
+        const base = "/mundo_senai/api/rfid";
+        const url = ultimoID === null ? base : `${base}?ultimoid=${ultimoID}`;
+
+        const resposta = await fetch(url, { method: "GET", cache: "no-store" });
+       
 
 
         /*

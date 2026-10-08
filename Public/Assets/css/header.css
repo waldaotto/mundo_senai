@@ -1,34 +1,21 @@
-header {
-    width: 100%;
-    background: rgb(32, 32, 186);
-    color: azure;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-
-    max-height: 100px;
-
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-ul,li {
-    list-style: none;
-    display: flex;
-    padding: 5px;
-    margin-left: 20px ;
-    margin-right: 20px ;
+.senai-img-logo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
 }
 
-button {
-    border: none;
-    background: rgb(232, 49, 49);
-    width: 100px;
-    height: 50px;
-    color: rgb(215, 215, 215);
-    margin-left: 20px ;
-    margin-right: 20px ;
-}
-
-a{
-    color: aliceblue;
+.brand-logo .badge {
+  font-size: 0.7rem;
+  background-color: var(--senai-accent);
+  color: #000000;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
