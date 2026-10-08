@@ -1,121 +1,71 @@
 /*
- * Guarda o ID da última leitura que
- * o navegador já processou.
+ * ID da última leitura que o navegador já exibiu.
+ * null = ainda não viu nenhuma.
  */
 let ultimoID = null;
 
+const URL_API = "/mundo_senai/api/rfid";
+const INTERVALO_MS = 1000;
 
-/*
- * Consulta a API procurando uma
- * nova leitura RFID.
- */
-async function verificarRFID()
-{
-    try
-    {
-        /*
-         * Faz uma requisição GET para
-         * a API do seu servidor.
-         */
-        const base = "/mundo_senai/api/rfid";
-        const url = ultimoID === null ? base : `${base}?ultimoid=${ultimoID}`;
+async function verificarRFID() {
+    try {
+        // Na primeira vez não manda "depois"; nas seguintes, manda o último id visto
+        const url = ultimoID === null
+            ? URL_API
+            : `${URL_API}?depois=${ultimoID}`;
 
-        const resposta = await fetch(url, { method: "GET", cache: "no-store" });
-       
+        const resposta = await fetch(url, {
+            method: "GET",
+            cache: "no-store"
+        });
 
-
-        /*
-         * Verifica se o servidor respondeu
-         * com sucesso.
-         */
-        if (!resposta.ok)
-        {
-            console.error(
-                "Erro HTTP:",
-                resposta.status
-            );
-
+        if (!resposta.ok) {
+            console.error("Erro HTTP:", resposta.status);
             return;
         }
 
+        const dados = await resposta.json();
 
-        /*
-         * Converte a resposta JSON do PHP
-         * para um objeto JavaScript.
-         */
-        const dados =
-            await resposta.json();
-
-
-        /*
-         * Verifica se existe uma leitura.
-         */
-        if (dados.novo !== true)
-        {
+        // Nada novo desde o último id visto
+        if (dados.novo !== true) {
             return;
         }
 
-
-        /*
-         * Verifica se essa leitura já foi
-         * processada anteriormente.
-         */
-        if (dados.id === ultimoID)
-        {
+        // Segurança extra: mesma leitura já processada
+        if (dados.id === ultimoID) {
             return;
         }
 
-
-        /*
-         * Guarda o ID da nova leitura.
-         */
         ultimoID = dados.id;
 
+        const elemento = document.getElementById("rfid");
+        if (elemento) {
+            elemento.textContent = dados.rfid;
+        }
 
-        /*
-         * Procura no HTML o elemento
-         * que exibirá o RFID.
-         */
-        const elemento =
-            document.getElementById("rfid");
+        const elId = document.getElementById("id");
+        if (elemento && dados.id) {
+            elId.textContent = dados.id;
+        }
 
+        // Se o PHP devolver data_hora e existir um elemento para ela
+        const elData = document.getElementById("data");
+        if (elData && dados.data_hora) {
+            elData.textContent = dados.data_hora;
+        }
 
-        /*
-         * Atualiza somente o conteúdo
-         * daquele elemento.
-         *
-         * A página NÃO é recarregada.
-         */
-        elemento.textContent =
-            dados.rfid;
-
-    }
-    catch (erro)
-    {
-        /*
-         * Captura erros de comunicação,
-         * como servidor indisponível,
-         * URL incorreta etc.
-         */
-        console.error(
-            "Erro ao consultar API:",
-            erro
-        );
+    } catch (erro) {
+        console.error("Erro ao consultar API:", erro);
     }
 }
 
-
 /*
- * Executa o polling a cada
- * SUA_INTERVALO_EM_MILISSEGUNDOS.
- *
- * Exemplo:
- *
- * 1000 = 1 segundo
- * 2000 = 2 segundos
- * 5000 = 5 segundos
+ * Espera a requisição terminar antes de agendar a próxima,
+ * assim nunca há duas em andamento ao mesmo tempo.
  */
-setInterval(
-    verificarRFID,
-    1000
-);
+async function loop() {
+    await verificarRFID();
+    setTimeout(loop, INTERVALO_MS);
+}
+
+loop();

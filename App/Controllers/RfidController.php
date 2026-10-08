@@ -7,23 +7,20 @@ class RfidController extends Controller
  {
 
     public RfidService $service;
-    public array $last_insert;
+    public mixed $last_insert;
+    public int $last_id;
 
     public function __construct() {
         $this->service = new RfidService();
         $last = $this->service->model->ultima_rfid();
-        $this->last_insert = $last;
     }
 
     public function index(){
         // if (isset($_SESSION["user_id"])){
         //     $this->redirect("/mundo_senai/");
-        // }
-
-        $tag = (empty($this->last_insert)) ? ['empty'=>1] : $this->last_insert[0];
-        
+        // }        
         $this->view('header',['title'=>'Leituras']);
-        $this->view('leituras',$tag);
+        $this->view('leituras');
     }
 
     public function store(){
@@ -66,7 +63,33 @@ class RfidController extends Controller
             'status'=>'OK',
             'mensagem'=>'RFID recebido!'
         ]);
+        
+        $this->last_id = $this->service->recebe_tag($rfid);
 
-        $this->last_insert = $this->service->recebe_tag($rfid);
+        }
+
+        public function pooling(){
+        header('Content-Type: application/json');
+
+        $ultimo = $this->service->model->ultima_rfid()[0] ?? null;
+
+        if (!$ultimo) {
+            echo json_encode(['novo' => false]);
+            return;
+        }
+
+        $depois = isset($_GET['depois']) ? (int)$_GET['depois'] : null;
+
+        if ($depois !== null && (int)$ultimo['id'] <= $depois) {
+            echo json_encode(['novo' => false]);
+            return;
+        }
+
+        echo json_encode([
+            'novo'      => true,
+            'id'        => (int)$ultimo['id'],
+            'rfid'      => $ultimo['rfid'],
+            'data_hora' => $ultimo['data_hora'],
+        ]);
     }
-}
+ }

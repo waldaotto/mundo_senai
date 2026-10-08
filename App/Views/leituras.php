@@ -62,6 +62,7 @@
     font-family: monospace;
   }
 </style>
+<script src=<?=JS_PATH."leituras.js"?>></script>
 
 <h2 class="tab-title">Leitura RFID</h2>
 <p class="tab-subtitle">Dados capturados em tempo real pelo leitor de triagem.</p>
@@ -75,17 +76,17 @@
   <div class="rfid-data-group">
     <div class="rfid-data-row">
       <span class="rfid-label">ID do Registro</span>
-      <span class="rfid-value"><?= isset($id) ? $id : (isset($tags[0]['id']) ? $tags[0]['id'] : '34') ?></span>
+      <span class="rfid-value" id="id">--</span>
     </div>
 
     <div class="rfid-data-row">
       <span class="rfid-label">Código RFID (UID)</span>
-      <span class="rfid-value" style="color: #2f81f7;"><?= isset($rfid) ? $rfid : (isset($tags[0]['tag_uid']) ? $tags[0]['tag_uid'] : '63 B2 2B 39') ?></span>
+      <span class="rfid-value" style="color: #2f81f7;" id="rfid">--</span>
     </div>
 
     <div class="rfid-data-row">
       <span class="rfid-label">Data e Hora</span>
-      <span class="rfid-value" style="color: #3fb950; font-size: 1.05rem;"><?= isset($data_hora) ? $data_hora : (isset($tags[0]['data_hora']) ? $tags[0]['data_hora'] : '2026-10-08 13:29:39') ?></span>
+      <span class="rfid-value" style="color: #3fb950; font-size: 1.05rem;" id="data">--</span>
     </div>
   </div>
 </div>

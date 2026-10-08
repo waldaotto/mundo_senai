@@ -13,7 +13,7 @@ class RfidService{
 
     public function recebe_tag(string $rfid){
         
-        $this->model->create(
+        return $this->model->create(
             [
             "id"=>null,
             "rfid"=>$rfid,

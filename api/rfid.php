@@ -1,24 +1,58 @@
 <?php
+namespace App\Controllers;
+use App\Core\Controller;
+use App\Services\RfidService;
+class RfidController extends Controller
+ {
 
-header('Content-Type: application/json');
+    public RfidService $service;
 
-$data = json_decode(file_get_contents("php://input"), true);
+    public function __construct() {
+        $this->service = new RfidService();
+    }
+    
 
-$temperatura = $data['temperatura'] ?? null;
-$umidade = $data['umidade'] ?? null;
+    public function store(){
+        $conteudo = file_get_contents(
+            'php://input'
+        );
 
-if ($temperatura === null || $umidade === null) {
-    http_response_code(400);
+        $dados = json_decode(
+            $conteudo,
+            true
+        );
 
-    echo json_encode([
-        "erro" => "Dados inválidos"
-    ]);
+        if (!is_array($dados)){
 
-    exit;
+            http_response_code(400);
+
+            echo json_decode([
+                'status'=>'erro',
+                'mensagem'=>'JSON invalido'
+            ]);
+
+            return;
+        }
+
+        $rfid = $dados['rfid'] ?? null;
+
+        if(!$rfid){
+
+            http_response_code(400);
+
+            echo json_decode([
+                'status'=>'erro',
+                'mensagem'=>'RFID nao informado'
+            ]);
+
+            return;
+        }
+
+        echo json_encode([
+            'status'=>'OK',
+            'mensagem'=>'RFID recebido!'
+        ]);
+
+        $this->service->recebe_tag($rfid);
+    }
 }
-
-echo json_encode([
-    "status" => "ok",
-    "temperatura" => $temperatura,
-    "umidade" => $umidade
-]);
