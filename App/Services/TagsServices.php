@@ -25,11 +25,20 @@ class TagsServices {
         }
 
         try{
-            
-            return [($this->model->find_by_field('tag_uid',$filtros))];
+            return [($this->model->find($filtros))];
         }
         catch(Exception $e){
             throw new Exception($e,2);
+        }
+
+
+    }
+
+    public function create_tag(string $uid){
+        try{
+            $this->model->create(["id"=>null,"uid"=>$uid,"data_cadastro"=>date("Y-m-d H:i:s")]);
+        }catch(Exception $e){
+            echo "Um erro ocorreu: ".$e;
         }
     }
 

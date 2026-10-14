@@ -121,8 +121,9 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.8rem;
-      color: #8b949e;
+      font-size: 0.88rem;
+      color: #f0f6fc;
+      font-weight: 600;
     }
 
     .status-dot {
@@ -202,17 +203,18 @@
       <a href="<?=url_to('/leituras')?>" class="nav-btn">
         <span class="icon">📡</span> Leitura RFID
       </a>
-      <a href="<?=url_to('/tags')?>" class="nav-btn ">
+      <a href="<?=url_to('/tags')?>" class="nav-btn">
         <span class="icon">🏷️</span> Ver TAGs
       </a>
     </nav>
 
-    <!-- USUARIO E SERVIDOR STATUS -->
+    <!-- USUARIO LOGADO -->
     <div class="user-profile">
       <div class="status-indicator">
-        <span class="status-dot"></span> Online
+        <span class="status-dot"></span>
+        <span><?= !empty($_SESSION['usuario']) ? htmlspecialchars($_SESSION['usuario']) : (!empty($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'Admin') ?></span>
       </div>
-      <a href="<?=url_to('/logout?id=' . $_SESSION['user_id'])?>" class="logout-btn">Sair ➔</a>
+      <a href="<?=url_to('/logout')?>" class="logout-btn">Sair ➔</a>
     </div>
   </header>
 

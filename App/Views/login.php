@@ -109,12 +109,11 @@
       box-shadow: 0 6px 20px rgba(35, 134, 54, 0.4);
     }
 
-    /* ESTILIZAÇÃO DO SPAN DE MENSAGEM */
-    body > span,
-    form span {
-      display: <?= !empty($mensagem) ? 'block' : 'none' ?>;
+    /* ESTILIZAÇÃO DO SPAN DE MENSAGEM DE ERRO */
+    body > span {
+      display: <?= !empty($mensagem) ? 'inline-block' : 'none' ?>;
       margin-top: 18px;
-      padding: 12px 16px;
+      padding: 12px 20px;
       background-color: rgba(248, 81, 73, 0.15);
       border: 1px solid rgba(248, 81, 73, 0.4);
       color: #f85149;
@@ -126,6 +125,10 @@
       width: 100%;
       box-shadow: 0 4px 15px rgba(248, 81, 73, 0.15);
       animation: fadeIn 0.3s ease-out;
+    }
+
+    body > span::before {
+      content: "⚠️ ";
     }
 
     @keyframes popIn {

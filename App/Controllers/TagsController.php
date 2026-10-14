@@ -61,4 +61,21 @@ class TagsController extends Controller {
     public function search(){
         $this->index();
     }
+
+    public function create_tag(){
+
+        if (!$_SERVER["REQUEST_METHOD"] === "POST"){
+            $this->redirect("/tags");
+        }
+
+        if(empty($_POST['uid']) || empty($_POST['uid'])){
+            $this->redirect("/tags");
+        }
+
+        $uid = $_POST['uid'];
+
+        $this->service->create_tag($uid);
+        $this->redirect("/tags");
+
+    }
 }

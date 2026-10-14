@@ -25,6 +25,7 @@ class UserServices {
         }
 
         $_SESSION["user_id"] = $usuario["id"];
+        $_SESSION["user_name"] = $usuario["nome"];
             return $usuario["id"];
 
     }

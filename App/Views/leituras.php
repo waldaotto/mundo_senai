@@ -71,7 +71,7 @@
   </style>
 
   
-  <script src="<?=JS_PATH.'leituras.js'?>"></script>
+  <script src="<?=JS_PATH.'leituras.js'?>" defer></script>
 </head>
 
 <body>
