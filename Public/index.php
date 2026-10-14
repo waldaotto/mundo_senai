@@ -11,9 +11,3 @@ require_once ROOT.'/App/Routes/UrlHelper.php';
 
 Router::execute();
 ?>
-
-
-
-
-
-
