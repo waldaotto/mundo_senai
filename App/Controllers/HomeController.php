@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Core\Controller;
+use App\Models\TagsModel;
+use App\Models\RfidModel;
 
 
 class HomeController extends Controller {
@@ -14,7 +16,15 @@ class HomeController extends Controller {
         }
 
         $this->view('header',['title'=>'Home']);
-        $this->view('home');
+        $this->view('home',$this->get_data());
 
+    }
+
+    public function get_data(){
+
+        $md = new TagsModel();
+        $data = [];
+        $data['total_tags'] = $md->get_n_tags();
+        return $data;
     }
 }

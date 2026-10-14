@@ -1,4 +1,14 @@
-<?php require_once 'header.php'; ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href=<?=CSS_PATH.'home'?>
+
+</head>
+<body>
+  
+
 
 <style>
   /* CARDS DE METRICAS */
@@ -118,7 +128,7 @@
     <h3>TOTAL DE TAGS CADASTRADAS</h3>
     <div class="val-wrapper">
       <span class="number" style="color: #58a6ff; text-shadow: 0 0 15px rgba(88, 166, 255, 0.3);">
-        <?= sprintf("%02d", $total_tags ?? count($tags ?? [])) ?>
+        <?= sprintf("%02d", $total_tags) ?? '--'?>
       </span>
       <span class="card-icon">🏷️</span>
     </div>
