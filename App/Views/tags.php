@@ -218,21 +218,23 @@
         <th>DATA / HORA</th>
       </tr>
     </thead>
-    <tbody>
-      <?php if (!empty($tags) && is_array($tags)): ?>
-        <?php foreach ($tags as $tag): ?>
+      <tbody>
+    <?php if (!empty($tags) && is_array($tags)){ ?>
+      <?php foreach ($tags as $tag){ ?>
+        <?php if (is_array($tag)){ ?>
           <tr>
-            <td>#<?=$tag['id']?></td>
-            <td><strong class="tag-uid"><?= $tag['uid']?></strong></td>
-            <td class="tag-date"><?= $tag['data_cadastro'] ?></td>
+            <td>#<?= $tag['id'] ?? 'N/A' ?></td>
+            <td><strong style="color: #f0f6fc;"><?= !empty($tag['uid']) ? $tag['uid'] : (!empty($tag['tag_uid']) ? $tag['tag_uid'] : "Não definido") ?></strong></td>
+            <td style="color: #8b949e;"><?= $tag['data_hora'] ?? $tag['data_cadastro'] ?? '-' ?></td>
           </tr>
-        <?php endforeach; ?>
-      <?php else: ?>
-        <tr>
-          <td colspan="3" class="empty-row">Nenhuma TAG encontrada no banco.</td>
-        </tr>
-      <?php endif; ?>
-    </tbody>
+        <?php } ?>
+      <?php } ?>
+    <?php } else { ?>
+      <tr>
+        <td colspan="3" style="text-align: center; color: #8b949e; padding: 30px;">Nenhuma TAG encontrada no banco.</td>
+      </tr>
+    <?php } ?>
+  </tbody>
   </table>
 </div>
 

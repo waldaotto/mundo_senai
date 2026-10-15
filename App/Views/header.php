@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRIAGEM 4.0 - SENAI</title>
+  <title>SENAI - <?=isset($title) ? $title : "SENAI - Triagem"?></title>
   <style>
     /* Reset & Base Dark Mode */
     * {
