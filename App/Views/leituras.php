@@ -1,76 +1,5 @@
-
 <head>
-  <style>
-    .rfid-display-card {
-      background: linear-gradient(145deg, #161b22, #21262d);
-      border: 1px solid #30363d;
-      border-radius: 16px;
-      padding: 35px;
-      max-width: 600px;
-      margin: 20px auto 0 auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .rfid-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 25px;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 15px;
-    }
-
-    .rfid-radar-icon {
-      font-size: 2rem;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.15); opacity: 0.7; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .rfid-data-group {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .rfid-data-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #0d1117;
-      padding: 14px 20px;
-      border-radius: 10px;
-      border: 1px solid #30363d;
-    }
-
-    .rfid-label {
-      color: #8b949e;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .rfid-value {
-      color: #58a6ff;
-      font-size: 1.25rem;
-      font-weight: bold;
-      font-family: monospace;
-    }
-
-    .status-badge {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #3fb950;
-      margin-top: 15px;
-    }
-  </style>
-
-  
+  <link rel="stylesheet" href="<?=CSS_PATH.'leituras.css'?>">
   <script src="<?=JS_PATH.'leituras.js'?>" defer></script>
 </head>
 
@@ -81,7 +10,7 @@
 
     <div class="rfid-display-card">
       <div class="rfid-header">
-        <span class="rfid-radar-icon">📡</span>
+        <i class="fa-solid fa-wifi rfid-radar-icon"></i>
         <h3 style="color: #f0f6fc; margin: 0; font-size: 1.3rem;">Última Leitura Capturada</h3>
       </div>
 
@@ -100,11 +29,20 @@
           <span class="rfid-label">Data e Hora</span>
           <span class="rfid-value" id="data" style="color: #3fb950; font-size: 1.05rem;">--/--/----</span>
         </div>
+
+        <div class="rfid-data-row">
+          <span class="rfid-label">Peso</span>
+          <span class="rfid-value" id="peso" style="color: #3fb950; font-size: 1.05rem;">--/--/----</span>
+        </div>
       </div>
 
-      <div class="status-badge">● Monitorização em tempo real ativa</div>
+      <div class="status-badge">
+        <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Monitorização em tempo real ativa
+      </div>
     </div>
-
   </main>
 </body>
 </html>
+<ElicitationsGroup>
+
+</ElicitationsGroup>

@@ -54,6 +54,11 @@ async function verificarRFID() {
             elData.textContent = dados.data_hora;
         }
 
+        const elPeso = document.getElementById("peso");
+        if (elPeso && dados.peso) {
+            elPeso.textContent = dados.peso;
+        }
+
     } catch (erro) {
         console.error("Erro ao consultar API:", erro);
     }

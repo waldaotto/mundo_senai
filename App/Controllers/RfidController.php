@@ -46,6 +46,7 @@ class RfidController extends Controller
         }
 
         $rfid = $dados['rfid'] ?? null;
+        $peso = $dados['peso'] ?? null;
 
         if(!$rfid){
 
@@ -64,11 +65,11 @@ class RfidController extends Controller
             'mensagem'=>'RFID recebido!'
         ]);
         
-        $this->last_id = $this->service->recebe_tag($rfid);
+        $this->last_id = $this->service->recebe_tag($rfid,$peso);
 
         }
 
-        public function pooling(){
+    public function pooling(){
         header('Content-Type: application/json');
 
         $ultimo = $this->service->model->ultima_rfid()[0] ?? null;
@@ -86,9 +87,10 @@ class RfidController extends Controller
         }
 
         echo json_encode([
-            'novo'      => true,
-            'id'        => (int)$ultimo['id'],
-            'rfid'      => $ultimo['rfid'],
+            'novo'=> true,
+            'id'=> (int)$ultimo['id'],
+            'rfid'=> $ultimo['rfid'],
+            'peso'=> $ultimo['peso'],
             'data_hora' => $ultimo['data_hora'],
         ]);
     }

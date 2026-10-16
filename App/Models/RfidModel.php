@@ -9,7 +9,7 @@ class RfidModel extends Model{
 
     public function ultima_rfid(){
         $stmt = $this->cursor->query(
-            "SELECT id, rfid, data_hora
+            "SELECT id, rfid, data_hora,peso
             FROM {$this->table}
             ORDER BY id DESC
             LIMIT 1"
