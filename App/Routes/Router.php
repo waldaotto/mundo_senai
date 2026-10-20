@@ -37,15 +37,16 @@ class Router {
                 '/mundo_senai/api/rfid'=> fn()=> self::load('RfidController','pooling'),
                 '/mundo_senai/logout'=> fn()=> self::load('LoginController','logout'),
                 '/mundo_senai/caixas'=> fn()=> self::load('CaixasController','index')
-                
             ],
 
             'post' => [
                 '/mundo_senai/login'=> fn()=> self::load('LoginController','validate'),
                 '/mundo_senai/tags'=> fn()=> self::load('TagsController','search'),
                 '/mundo_senai/api/rfid'=> fn()=> self::load('RfidController','store'),
-                '/mundo_senai/tags/cadastro'=> fn()=> self::load('TagsController','create_tag')
-            
+                '/mundo_senai/tags/cadastro'=> fn()=> self::load('TagsController','create_tag'),
+                '/mundo_senai/tags/editar'=> fn()=> self::load('TagsController','editar'),
+                '/mundo_senai/tags/excluir'=> fn()=> self::load('TagsController','excluir'),
+                '/mundo_senai/caixas/cadastro'=> fn()=> self::load('CaixasController','cadastro')
             ]
         ];
     }
@@ -68,7 +69,6 @@ class Router {
 
             if (!is_callable($router)){
                 throw new \Exception("Route not callable");
-                
             }
 
             return $router();

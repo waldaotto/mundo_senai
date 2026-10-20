@@ -13,4 +13,6 @@ class TagsModel extends Model {
         $stmt = $this->cursor->query("SELECT COUNT(*) AS total FROM {$this->table}");
         return (int) $stmt->fetchColumn();
     }
+
+    
 }

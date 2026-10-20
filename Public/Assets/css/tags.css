@@ -180,3 +180,57 @@
 .modal-form button[type="submit"]:hover {
   background: #2ea043;
 }
+/* ===== AÇÕES DA TABELA ===== */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-action {
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+/* Botão Editar (Azul) */
+.btn-action.btn-edit:hover {
+  background-color: rgba(56, 139, 253, 0.15);
+  border-color: #58a6ff;
+  color: #58a6ff;
+}
+
+/* Botão Excluir (Vermelho) */
+.btn-action.btn-delete:hover {
+  background-color: rgba(248, 81, 73, 0.15);
+  border-color: #f85149;
+  color: #f85149;
+}
+
+/* Botão Perigo para confirmação no modal */
+.btn-danger {
+  background-color: #da3633;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;  
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.btn-danger:hover {
+  background-color: #b82a28;
+}

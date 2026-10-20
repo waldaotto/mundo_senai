@@ -3,20 +3,30 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Services\CaixasServices;
 
 class CaixasController extends Controller {
 
+    public CaixasServices $service;
+
+    public function __construct()
+    {
+        $this->service = new CaixasServices();
+    }
+
     public function cadastro() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $destino = $_POST['destino'] ?? '';
+        $destino_id = (int)$_POST['destino_id'] ?? '';
         $tag_uid = $_POST['tag_uid'] ?? '';
-        $peso = $_POST['peso'] ?? 0;
-        $processo = $_POST['processo_atual'] ?? 'Em Triagem';
+        $processo_id = (int)$_POST['processo_id'] ?? '';
 
-        // Lógica de inserção no banco de dados aqui...
+        if (!$destino_id || !$tag_uid || !$processo_id){
+            return;
+        }
+       
+        $i = $this->service->cadastrar_caixa($destino_id,$tag_uid,$processo_id);
 
-        header('Location: ' . url_to('/caixas'));
-        exit;
+        $this->redirect("/caixas");
     }
 }
 

@@ -61,8 +61,14 @@
     
     <form action="<?=url_to('/caixas/cadastro')?>" method="POST" class="modal-form">
       <div class="form-group">
-        <label for="destino">Destino</label>
-        <input type="text" id="destino" name="destino" placeholder="Ex: Setor A - Linha 1" required autocomplete="off">
+        <label for="destino_id">Destino</label>
+        <select id="destino_id" name="destino_id">
+          <option value="1">Norte</option>
+          <option value="2">Nordeste</option>
+          <option value="3">Centro-Oeste</option>
+          <option value="4">Sudeste</option>
+          <option value="5">Sul</option>
+        </select>
       </div>
 
       <div class="form-group">

@@ -58,4 +58,28 @@ class TagsServices {
             echo "Um erro ocorreu: " . $e->getMessage();
         }
     }
+
+    // MÉTODO PARA ATUALIZAR A TAG
+    public function update_tag(int|string $id, string $uid) {
+        try {
+            // Repassa para o método de update da sua TagsModel
+            if (method_exists($this->model, 'update')) {
+                return $this->model->update($id, ["uid" => $uid]);
+            }
+        } catch (Exception $e) {
+            echo "Um erro ocorreu ao atualizar a TAG: " . $e->getMessage();
+        }
+    }
+
+    // MÉTODO PARA EXCLUIR A TAG
+    public function delete_tag(int|string $id) {
+        try {
+            // Repassa para o método de delete da sua TagsModel
+            if (method_exists($this->model, 'delete')) {
+                return $this->model->delete($id);
+            }
+        } catch (Exception $e) {
+            echo "Um erro ocorreu ao excluir a TAG: " . $e->getMessage();
+        }
+    }
 }
