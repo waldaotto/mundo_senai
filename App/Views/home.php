@@ -1,22 +1,26 @@
 <head>
-  <link rel="stylesheet" href="<?= CSS_PATH.'home.css?v=1.2' ?>">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="<?= CSS_PATH ?>home.css?v=1.3">
+
+  <!-- Ordem importa: scripts com defer executam na ordem em que aparecem.
+       O Chart.js precisa vir antes do home.js. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4" defer></script>
+  <script src="<?= JS_PATH ?>home.js?v=1.0" defer></script>
 </head>
 
 <main class="dashboard-container">
+
   <!-- CABEÇALHO DA PÁGINA -->
   <div class="dash-header">
     <div>
       <span class="sub-title-red">PAINEL DE CONTROLE</span>
       <h1 class="main-title">Triagem e rastreamento de carga</h1>
-  
     </div>
     <div class="period-badge">
       <i class="fa-regular fa-calendar"></i> Período: Período Atual
     </div>
   </div>
 
-  <!-- CARDS DE METRICAS (KPIs SEM NEON) -->
+  <!-- CARDS DE MÉTRICAS (KPIs) -->
   <div class="kpi-grid">
     <div class="kpi-card">
       <div class="kpi-top">
@@ -42,7 +46,7 @@
         <div class="kpi-icon light-blue"><i class="fa-solid fa-truck-fast"></i></div>
       </div>
       <div class="kpi-value"><?= number_format($kpis['caixas_transito'] ?? 0, 0, ',', '.') ?></div>
-      <div class="kpi-sub green"><i class="fa-solid fa-circle" style="font-size: 8px;"></i> ativas no fluxo agora</div>
+      <div class="kpi-sub green"><i class="fa-solid fa-circle icon-dot"></i> ativas no fluxo agora</div>
     </div>
 
     <div class="kpi-card">
@@ -59,7 +63,7 @@
         <span class="kpi-label">DESTINO MAIS FREQUENTE</span>
         <div class="kpi-icon orange"><i class="fa-solid fa-location-dot"></i></div>
       </div>
-      <div class="kpi-value" style="font-size: 1.2rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+      <div class="kpi-value kpi-value--text">
         <?= htmlspecialchars($kpis['destino_frequente'] ?? 'N/A') ?>
       </div>
       <div class="kpi-sub">maior volume do mês</div>
@@ -71,7 +75,7 @@
         <div class="kpi-icon green-bright"><i class="fa-solid fa-network-wired"></i></div>
       </div>
       <div class="kpi-value"><?= $kpis['sensores'] ?? '0/0' ?></div>
-      <div class="kpi-sub green"><i class="fa-solid fa-circle" style="font-size: 8px;"></i> todos online</div>
+      <div class="kpi-sub green"><i class="fa-solid fa-circle icon-dot"></i> todos online</div>
     </div>
   </div>
 
@@ -81,7 +85,11 @@
       <h3>Distribuição por destino</h3>
       <p class="chart-subtitle">Participação das caixas enviadas</p>
       <div class="donut-wrapper">
-        <canvas id="chartDestinos"></canvas>
+        <!-- Os dados do PHP chegam ao JS por data-attribute (sem script inline) -->
+        <canvas
+          id="chartDestinos"
+          data-destinos="<?= htmlspecialchars(json_encode($destinos ?? [], JSON_UNESCAPED_UNICODE) ?: '[]', ENT_QUOTES, 'UTF-8') ?>"
+        ></canvas>
       </div>
     </div>
 
@@ -119,7 +127,7 @@
         <?php if (!empty($ultimas_movimentacoes) && is_array($ultimas_movimentacoes)): ?>
           <?php foreach ($ultimas_movimentacoes as $mov): ?>
             <tr>
-              <td><strong style="color: #f0f6fc;">CX-<?= str_pad($mov['id'], 4, '0', STR_PAD_LEFT) ?></strong></td>
+              <td><strong class="cell-strong">CX-<?= str_pad((string) $mov['id'], 4, '0', STR_PAD_LEFT) ?></strong></td>
               <td class="code-font"><?= htmlspecialchars($mov['tag_uid'] ?? $mov['tag'] ?? 'N/A') ?></td>
               <td><?= htmlspecialchars($mov['destino'] ?? 'Não informado') ?></td>
               <td><span class="badge-processo"><?= htmlspecialchars($mov['processo_atual'] ?? $mov['processo'] ?? 'Preparação') ?></span></td>
@@ -129,67 +137,11 @@
           <?php endforeach; ?>
         <?php else: ?>
           <tr>
-            <td colspan="6" style="text-align: center; color: #8b949e; padding: 25px;">Nenhuma movimentação registrada recentemente.</td>
+            <td colspan="6" class="table-empty">Nenhuma movimentação registrada recentemente.</td>
           </tr>
         <?php endif; ?>
       </tbody>
     </table>
   </div>
+
 </main>
-
-<script>
-  // Inicialização Dinâmica dos Gráficos com Dados do Banco
-  const destinosData = <?= json_encode($destinos ?? []) ?>;
-  const labelsDestinos = destinosData.map(item => item.destino || 'Outro');
-  const qtdsDestinos = destinosData.map(item => item.total || 0);
-
-  const ctxDestinos = document.getElementById('chartDestinos').getContext('2d');
-  new Chart(ctxDestinos, {
-    type: 'doughnut',
-    data: {
-      labels: labelsDestinos.length ? labelsDestinos : ['Sem Dados'],
-      datasets: [{
-        data: qtdsDestinos.length ? qtdsDestinos : [1],
-        backgroundColor: ['#2f81f7', '#3fb950', '#a371f7', '#f0883e', '#8b949e'],
-        borderWidth: 0
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { position: 'right', labels: { color: '#8b949e' } } },
-      cutout: '75%'
-    }
-  });
-
-  const ctxVolume = document.getElementById('chartVolume').getContext('2d');
-  new Chart(ctxVolume, {
-    type: 'line',
-    data: {
-      labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-      datasets: [
-        {
-          label: 'Leituras',
-          data: [12, 19, 15, 25, 22, 10, 5],
-          borderColor: '#2f81f7',
-          tension: 0.4
-        },
-        {
-          label: 'Caixas',
-          data: [8, 12, 10, 18, 15, 6, 2],
-          borderColor: '#3fb950',
-          tension: 0.4
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: { grid: { display: false }, ticks: { color: '#8b949e' } },
-        y: { grid: { color: '#21262d' }, ticks: { color: '#8b949e' } }
-      },
-      plugins: { legend: { labels: { color: '#8b949e' } } }
-    }
-  });
-</script>
