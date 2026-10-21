@@ -6,6 +6,7 @@ use App\Models\TagsModel;
 use App\Models\RfidModel;
 use App\Models\ProcessoModel;
 use App\Models\CaixasModel;
+use App\Models\RegiaoModel;
 use Exception;
 use PDO;
 
@@ -14,12 +15,14 @@ class DashboardServices {
     private mixed $TagsModel;
     private mixed $RfidModel;
     private mixed $CaixasModel;
+    private mixed $RegiaoModel;
 
     public function __construct() {
         // Usa o TagsTagsModel existente para reaproveitar a conexão de banco do projeto
         $this->TagsModel = new TagsModel();
         $this->RfidModel = new RfidModel();
         $this->CaixasModel = new CaixasModel();
+        $this->RegiaoModel = new RegiaoModel();
     }
 
     public function get_kpis(): array {
@@ -45,7 +48,8 @@ class DashboardServices {
 
             // 5. Destino mais frequente
             $dest_row = $this->CaixasModel->get_frequente_regiao();
-            $destino_frequente = $dest_row['regiao_id'] ?? 'Sem registros';
+            $destino_frequente = (int)$dest_row['regiao_id'] ?? 'Sem registros';
+            
 
             // 6. Sensores Conectados
              $sensores_str = "4/4";
@@ -83,4 +87,10 @@ class DashboardServices {
             return [];
         }
     }
+
+    public function get_regiao(int $regiao_id){
+
+        $regiao = $this->RegiaoModel->find($regiao_id);
+        return empty($regiao) ? [] : $regiao;
+}
 }

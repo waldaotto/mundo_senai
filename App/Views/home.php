@@ -54,7 +54,7 @@
         <span class="kpi-label">MÉDIA DE PESO ENVIADO</span>
         <div class="kpi-icon green"><i class="fa-solid fa-weight-hanging"></i></div>
       </div>
-      <div class="kpi-value"><?= $kpis['media_peso'] ?? '0,0' ?> <span class="unit">g</span></div>
+      <div class="kpi-value"><?= ($kpis['media_peso']) ?? '0,0' ?> <span class="unit">g</span></div>
       <div class="kpi-sub">por caixa</div>
     </div>
 
@@ -64,7 +64,7 @@
         <div class="kpi-icon orange"><i class="fa-solid fa-location-dot"></i></div>
       </div>
       <div class="kpi-value kpi-value--text">
-        <?= htmlspecialchars($kpis['destino_frequente'] ?? 'N/A') ?>
+        <?= htmlspecialchars($this->regiao_id($kpis['destino_frequente']) ?? 'N/A') ?>
       </div>
       <div class="kpi-sub">maior volume do mês</div>
     </div>
@@ -86,9 +86,19 @@
       <p class="chart-subtitle">Participação das caixas enviadas</p>
       <div class="donut-wrapper">
         <!-- Os dados do PHP chegam ao JS por data-attribute (sem script inline) -->
+
+        <?php
+          $dadosGrafico = [];
+          foreach (($destinos ?? []) as $dt) {
+              $dadosGrafico[] = [
+                  'destino' => $this->regiao_id($dt['regiao_id']) ?: 'Não informado',
+                  'total'   => (int) ($dt['total'] ?? 0),
+              ];
+          }
+        ?>
         <canvas
           id="chartDestinos"
-          data-destinos="<?= htmlspecialchars(json_encode($destinos ?? [], JSON_UNESCAPED_UNICODE) ?: '[]', ENT_QUOTES, 'UTF-8') ?>"
+          data-destinos="<?= htmlspecialchars(json_encode($dadosGrafico, JSON_UNESCAPED_UNICODE) ?: '[]', ENT_QUOTES, 'UTF-8') ?>"
         ></canvas>
       </div>
     </div>

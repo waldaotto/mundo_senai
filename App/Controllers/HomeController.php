@@ -49,4 +49,9 @@ class HomeController extends Controller {
             'ultimas_movimentacoes' => $ultimas_movimentacoes
         ];
     }
+
+    public function regiao_id(int $id){
+        $dsh = new DashboardServices();
+        return $dsh->get_regiao($id)['regiao'] ?? 'Outro';
+    }
 }
