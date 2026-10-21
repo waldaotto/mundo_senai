@@ -36,7 +36,8 @@ class Router {
                 '/mundo_senai/leituras'=> fn()=> self::load('RfidController','index'),
                 '/mundo_senai/api/rfid'=> fn()=> self::load('RfidController','pooling'),
                 '/mundo_senai/logout'=> fn()=> self::load('LoginController','logout'),
-                '/mundo_senai/caixas'=> fn()=> self::load('CaixasController','index')
+                '/mundo_senai/caixas'=> fn()=> self::load('CaixasController','index'),
+                '/mundo_senai/users'=> fn()=> self::load('UserController','index')
             ],
 
             'post' => [

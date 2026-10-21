@@ -18,7 +18,7 @@ class CaixasController extends Controller {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destino_id = (int)$_POST['destino_id'] ?? '';
         $tag_uid = $_POST['tag_uid'] ?? '';
-        $processo_id = (int)$_POST['processo_id'] ?? '';
+        $processo_id = $_POST['processo_id'] ?? '';
 
         if (!$destino_id || !$tag_uid || !$processo_id){
             return;
@@ -32,34 +32,39 @@ class CaixasController extends Controller {
 
     public function index() {
         // Exemplo fictício de dados (substitua pela consulta ao banco de dados)
-        $caixas = [
-            [
-                'id' => 101,
-                'destino' => 'Setor A - Linha 1',
-                'processo_atual' => 'Pesagem',
-                'tag_uid' => 'E200001A99001',
-                'peso' => '12.4',
-                'data_hora' => '16/10/2026 10:15'
-            ],
-            [
-                'id' => 102,
-                'destino' => 'Depósito Central',
-                'processo_atual' => 'Aguardando Envio',
-                'tag_uid' => 'E200001A99002',
-                'peso' => '8.1',
-                'data_hora' => '16/10/2026 09:40'
-            ]
-        ];
-
-        // Se houver busca por ID na URL
-        if (!empty($_GET['search'])) {
-            $search = trim($_GET['search']);
-            $caixas = array_filter($caixas, function($c) use ($search) {
-                return strpos((string)$c['id'], $search) !== false;
-            });
-        }
+        $caixas = $this->caixas_loader();
 
         $this->view('header',['title'=>'Caixas']);
         $this->view('caixas', ['caixas' => $caixas]);
     }
+
+    private function caixas_loader(){
+        if(empty($_GET['search'])){
+            return $this->service->find_all();
+        }
+
+        try{
+            $filtro = (int)$_GET['search'];
+        } catch(Exception $e){
+            echo "Erro de filtro ".$e;
+
+        }
+
+        return $this->service->find($filtro);
+  
+    }
+
+    public function find_regiao(int $id){
+        return $this->service->get_regiao($id)['regiao'];
+    }
+
+    public function find_processo(int $id){
+        $i = ($this->service->get_processo($id));
+        return $i['descricao'] ?? "Que";
+    }
+
+    public function find_tag(int $id){
+        return $this->service->get_tag($id)['uid'];
+    }
+
 }

@@ -82,4 +82,8 @@ class TagsServices {
             echo "Um erro ocorreu ao excluir a TAG: " . $e->getMessage();
         }
     }
+
+    public function get_disponiveis(){
+        return $this->model->find_disponiveis() ?? [];
+    }
 }

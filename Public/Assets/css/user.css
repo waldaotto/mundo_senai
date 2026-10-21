@@ -1,0 +1,123 @@
+/* Força o fundo escuro global no body e no container principal do layout */
+html, 
+body, 
+.main-container {
+    background-color: #0b0f17 !important;
+    color: #f8fafc !important;
+    min-height: 100vh;
+}
+
+/* Paleta de Cores Dark */
+:root {
+    --bg-dark-main: #0b0f17;
+    --bg-card: #161e2e;
+    --bg-card-hover: #1e293b;
+    --border-dark: #243044;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-blue: #0d6efd;
+    --accent-blue-hover: #0b5ed7;
+    --input-bg: #111827;
+}
+
+/* Ajuste do Título e Subtítulo para contraste perfeito */
+.page-title {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.page-subtitle {
+    color: #94a3b8 !important;
+}
+
+/* Botão Azul SENAI */
+.btn-primary-senai {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+    color: #ffffff !important;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+.btn-primary-senai:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0b5ed7 !important;
+}
+
+/* Cards Escuros */
+.card-dark {
+    background-color: #161e2e !important;
+    border: 1px solid #243044 !important;
+    border-radius: 8px;
+}
+
+/* Inputs e Caixas de Pesquisa */
+.input-group-text-dark {
+    background-color: #111827 !important;
+    border-color: #243044 !important;
+    color: #94a3b8 !important;
+}
+
+.form-control-dark, .form-select-dark {
+    background-color: #111827 !important;
+    border-color: #243044 !important;
+    color: #f8fafc !important;
+}
+
+.form-control-dark:focus, .form-select-dark:focus {
+    background-color: #111827 !important;
+    border-color: #0d6efd !important;
+    color: #f8fafc !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+.form-control-dark::placeholder {
+    color: #64748b !important;
+}
+
+/* Tabela Escura */
+.table-dark-custom {
+    color: #f8fafc !important;
+    --bs-table-bg: transparent;
+}
+
+.table-dark-custom thead {
+    background-color: #111827 !important;
+    border-bottom: 2px solid #243044 !important;
+}
+
+.table-dark-custom thead th {
+    background-color: #111827 !important;
+    color: #f8fafc !important;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 0.9rem;
+    border-color: #243044 !important;
+}
+
+.table-dark-custom tbody td {
+    background-color: #161e2e !important;
+    padding: 0.9rem;
+    font-size: 0.9rem;
+    border-color: #243044 !important;
+    color: #cbd5e1 !important;
+}
+
+.table-dark-custom tbody tr:hover td {
+    background-color: #1e293b !important;
+}
+
+/* Modais */
+.modal-content-dark {
+    background-color: #161e2e !important;
+    border: 1px solid #243044 !important;
+    color: #f8fafc !important;
+}
+
+.modal-content-dark .modal-header {
+    border-bottom: 1px solid #243044 !important;
+}
+
+.modal-content-dark .modal-footer {
+    border-top: 1px solid #243044 !important;
+}

@@ -11,7 +11,7 @@
   <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
     <form method="GET" action="<?=url_to('/caixas')?>" class="search-section" style="flex: 1;">
       <input 
-        type="text" 
+        type="integer" 
         name="search" 
         class="search-input" 
         placeholder="Pesquisar pelo ID da Caixa..." 
@@ -31,15 +31,22 @@
   <div class="caixas-grid">
     <?php if (!empty($caixas) && is_array($caixas)): ?>
       <?php foreach ($caixas as $caixa): ?>
-        <div class="caixa-card" onclick='abrirModalDetalhes(<?= json_encode($caixa) ?>)'>
-          <div class="card-header">
+        <?php
+        $destino = $this->find_regiao($caixa['regiao_id']) ?: 'Não informado';
+        $tag_uid = $this->find_tag($caixa['tag_id']) ?: 'N/A';
+
+        $caixa['destino'] = $destino;
+        $caixa['tag_uid'] = $tag_uid;
+
+        ?>
+  <div class="caixa-card" onclick='abrirModalDetalhes(<?= json_encode($caixa, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP) ?>)'>          <div class="card-header">
             <span class="caixa-id"><i class="fa-solid fa-box"></i> Caixa #<?= htmlspecialchars($caixa['id']) ?></span>
-            <span class="badge-processo"><?= htmlspecialchars($caixa['processo_atual'] ?? $caixa['processo'] ?? 'Preparação') ?></span>
+            <span class="badge-processo"><?= htmlspecialchars(strtoupper($caixa['processo'])) ?? 'Indefinido' ?></span>
           </div>
           <div class="card-body">
             <div class="info-row">
               <span>Destino:</span>
-              <strong><?= htmlspecialchars($caixa['destino'] ?? 'Não informado') ?></strong>
+              <strong><?= htmlspecialchars($this->find_regiao($caixa['regiao_id']) ?? 'Não informado') ?></strong>
             </div>
           </div>
         </div>
@@ -77,22 +84,18 @@
         <input type="text" id="tag_uid" name="tag_uid" placeholder="Ex: E200001A99001" required autocomplete="off">
       </div>
 
-      <div class="form-group">
-        <label for="peso">Peso (kg)</label>
-        <input type="number" step="0.01" id="peso" name="peso" placeholder="Ex: 12.5" required>
-      </div>
 
       <!-- OPÇÕES DE PROCESSO ATUALIZADAS COM A BASE DE DADOS -->
       <div class="form-group">
         <label for="processo_id">Processo Inicial</label>
         <select id="processo_id" name="processo_id">
-          <option value="1">Preparação</option>
-          <option value="2">Montagem</option>
-          <option value="3">Pesagem</option>
-          <option value="4">Esteira</option>
-          <option value="5">Carga</option>
-          <option value="6">Transporte</option>
-          <option value="7">Finalizado</option>
+          <option value="preparacao">Preparação</option>
+          <option value="montagem">Montagem</option>
+          <option value="pesagem">Pesagem</option>
+          <option value="esteira">Esteira</option>
+          <option value="carga">Carga</option>
+          <option value="transporte">Transporte</option>
+          <option value="finalizado">Finalizado</option>
         </select>
       </div>
 

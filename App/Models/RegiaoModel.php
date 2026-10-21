@@ -6,6 +6,6 @@ use App\Core\Model;
 
 class RegiaoModel extends Model {
 
-    protected string $table = "regiao";
+    protected string $table = "regioes";
 
 }
