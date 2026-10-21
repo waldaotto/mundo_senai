@@ -67,4 +67,10 @@ class CaixasController extends Controller {
         return $this->service->get_tag($id)['uid'];
     }
 
+    public function tags_disponiveis(){
+        $tags = $this->service->get_disponiveis();
+
+      return empty($tags) ? [] : $tags;
+    }
+
 }

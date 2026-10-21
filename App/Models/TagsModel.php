@@ -14,5 +14,16 @@ class TagsModel extends Model {
         return (int) $stmt->fetchColumn();
     }
 
-    
+    public function find_disponiveis(): array {
+        $sql = "
+            SELECT t.id, t.uid, t.data_cadastro
+            FROM tags t
+            WHERE NOT EXISTS (
+                SELECT 1 FROM caixa c
+                WHERE c.tag_id = t.id
+                AND (c.processo IS NULL OR c.processo <> 'finalizado')
+            )
+        ";
+        return $this->cursor->query($sql)->fetchAll();
+    }
 }

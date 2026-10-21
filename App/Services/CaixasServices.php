@@ -78,5 +78,8 @@ class CaixasServices {
     public function get_tag(int $id){
         return $this->tags->find($id);
     }
-
+    
+    public function get_disponiveis(){
+        return $this->tags->find_disponiveis() ?? [];
+    }
 }

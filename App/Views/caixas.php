@@ -79,11 +79,23 @@
         </select>
       </div>
 
+      <?php 
+          $tag_disponivel = $this->tags_disponiveis();
+      
+      ?>
       <div class="form-group">
         <label for="tag_uid">TAG RFID</label>
-        <input type="text" id="tag_uid" name="tag_uid" placeholder="Ex: E200001A99001" required autocomplete="off">
-      </div>
+        <?php if (empty($tag_disponivel)): ?>
+          <input type="text" id="tag_uid" name="tag_uid" placeholder="Nenhuma tag disponivel" required="" autocomplete="off" disabled>
 
+        <?php else: ?>
+          <select id="tag_uid" name="tag_uid">
+            <?php foreach($tag_disponivel as $tag): ?>
+              <option value="<?=$tag['id']?>"><?=$tag['uid']?></option>
+            <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
+            </div>
 
       <!-- OPÇÕES DE PROCESSO ATUALIZADAS COM A BASE DE DADOS -->
       <div class="form-group">
