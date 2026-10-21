@@ -15,6 +15,8 @@ class CaixasController extends Controller {
     }
 
     public function cadastro() {
+        
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destino_id = (int)$_POST['destino_id'] ?? '';
         $tag_uid = $_POST['tag_uid'] ?? '';

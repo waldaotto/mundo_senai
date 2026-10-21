@@ -23,18 +23,14 @@ class CaixasServices {
 
     }
 
-    public function cadastrar_caixa(int $destino_id, string $tag_uid,string $processo){
+    public function cadastrar_caixa(int $destino_id, int $tag_uid,string $processo){
 
-        $tag = $this->get_tag_id(($tag_uid));
-        
-        if (empty($tag)){
-            return [];
-        }
+        // $tag = $this->get_tag_id(($tag_uid));
 
         try{
             $insert = $this->model->create([
             'id'=>null,
-            'tag_id'=>$tag['id'],
+            'tag_id'=>(int)$tag_uid,
             'regiao_id'=>$destino_id,
             'user_id'=>$_SESSION['user_id'],
             'data_criada'=>date("Y-m-d H:i:s"),
