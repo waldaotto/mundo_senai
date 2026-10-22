@@ -18,6 +18,12 @@ class CaixasController extends Controller {
         
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        if ((int)$_SESSION['role']<5){
+            echo "Sem acesso";
+            $this->redirect('/home');
+        }
+
         $destino_id = (int)$_POST['destino_id'] ?? '';
         $tag_uid = $_POST['tag_uid'] ?? '';
         $processo_id = $_POST['processo_id'] ?? '';

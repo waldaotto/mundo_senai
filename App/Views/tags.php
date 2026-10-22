@@ -13,11 +13,13 @@
 </form>
 
 <!-- Toolbar de Criação -->
+ <?php if ($_SESSION['role']>=5):?>
 <div class="toolbar">
   <button type="button" id="abrirModal" class="btn-searchtag">
     <i class="fa-solid fa-plus"></i> Criar Tag
   </button>
 </div>
+<?php endif; ?>
 
 <!-- Modal 1: Cadastrar Tag -->
 <div id="modalTag" class="modal" hidden>

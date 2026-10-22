@@ -41,9 +41,11 @@
         <i class="fa-solid fa-tag nav-icon"></i> TAGs
       </a>
       <!-- NOVO ITEM: USUÁRIOS -->
+      <?php if ($_SESSION['role'] >=10):?>
       <a href="<?=url_to('/users')?>" class="nav-btn">
         <i class="fa-solid fa-users nav-icon"></i> Usuários
       </a>
+      <?php endif; ?>
     </nav>
 
     <!-- 3. DIREITA: USUÁRIO LOGADO + SAIR -->
