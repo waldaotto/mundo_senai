@@ -44,7 +44,7 @@ class CaixasServices {
         return $insert;
     }   
 
-    private function get_tag_id(string $uid){
+    public function get_tag_id(string $uid){
 
         $tag = $this->tags->find_by_field('uid',$uid);
         return is_array($tag) ? $tag : [];
@@ -78,4 +78,12 @@ class CaixasServices {
     public function get_disponiveis(){
         return $this->tags->find_disponiveis() ?? [];
     }
-}
+
+    public function contar_caixas_ativas(int $tag_id): int {
+        return $this->model->contar_ativas_por_tag($tag_id);
+    }
+
+    public function set_peso_por_tag(int $tag_id, float $peso): void {
+        $this->model->atualizar_peso_por_tag($tag_id, $peso);
+    }
+}   

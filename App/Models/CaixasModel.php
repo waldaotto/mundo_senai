@@ -37,4 +37,34 @@ class CaixasModel extends Model {
         $stmt = $this->cursor->query("SELECT * FROM {$this->table} ORDER BY id DESC LIMIT 6");
         return $stmt ? ($stmt->fetchAll(PDO::FETCH_ASSOC) ?: []) : [];
     }
+
+    public function atualizar_peso_por_tag(int $tag_id, float $peso): int {
+        $sql = "
+            UPDATE {$this->table}
+            SET peso = :peso
+            WHERE tag_id = :tag_id
+            AND (processo IS NULL OR processo <> 'finalizado')
+        ";
+
+        $stmt = $this->cursor->prepare($sql);
+        $stmt->execute([
+            ':peso'   => $peso,
+            ':tag_id' => $tag_id,
+        ]);
+
+        return $stmt->rowCount();
+    }
+
+    public function contar_ativas_por_tag(int $tag_id): int {
+    $sql = "
+        SELECT COUNT(*)
+        FROM {$this->table}
+        WHERE tag_id = :tag_id
+          AND (processo IS NULL OR processo <> 'finalizado')
+    ";
+    $stmt = $this->cursor->prepare($sql);
+    $stmt->execute([':tag_id' => $tag_id]);
+
+    return (int) $stmt->fetchColumn();
+}
 }
