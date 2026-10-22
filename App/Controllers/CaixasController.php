@@ -41,18 +41,17 @@ class CaixasController extends Controller {
     }
 
     private function caixas_loader(){
-        if(empty($_GET['search'])){
+
+        if(empty($_GET['search']) or !isset($_GET['search'])){
             return $this->service->find_all();
-        }
-
-        try{
-            $filtro = (int)$_GET['search'];
-        } catch(Exception $e){
-            echo "Erro de filtro ".$e;
 
         }
 
-        return $this->service->find($filtro);
+        $search = $_GET['search'];
+
+
+        $caixas = $this->service->loader($search);
+        return $caixas;
   
     }
 

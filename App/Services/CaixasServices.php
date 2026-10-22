@@ -86,4 +86,22 @@ class CaixasServices {
     public function set_peso_por_tag(int $tag_id, float $peso): void {
         $this->model->atualizar_peso_por_tag($tag_id, $peso);
     }
+
+    public function loader(mixed $search = null){
+
+        $tag_id = $this->get_tag_id($search);
+
+        if ($tag_id){
+            $caixa = $this->model->find_by_field("tag_id",$tag_id['id']);
+        }
+
+        if (is_numeric($search)){
+            $caixa = $this->model->find((int)$search);
+        }
+
+        var_dump($caixa);
+        return [$caixa];
+        
+        
+    }
 }   
