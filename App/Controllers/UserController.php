@@ -21,7 +21,7 @@ class UserController extends Controller {
 
         if ((int)$_SESSION['role']<10){
             echo "Sem acesso";
-            return;
+            $this->redirect('/home');
         }
 
         if (!isset($_SESSION["user_id"])){

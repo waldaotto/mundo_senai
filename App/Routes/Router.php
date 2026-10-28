@@ -1,5 +1,6 @@
 <?php
 namespace App\Routes;
+
 use App\Core\Helper;
 
 class Router {
@@ -16,7 +17,7 @@ class Router {
 
             $controllerInstance = new $controllerNamespace;
 
-            if(!method_exists($controllerInstance,$method)){
+            if(!method_exists($controllerInstance, $method)){
                 throw new \Exception("O {$method} nao existe em {$controller}", 1);
             }
 
@@ -27,27 +28,29 @@ class Router {
         }
     }
 
-    public static function routes():array {
+    public static function routes(): array {
         return [
             'get' => [
-                '/mundo_senai/'=> fn()=> self::load('HomeController','index'),
-                '/mundo_senai/login'=> fn()=> self::load('LoginController','index'),
-                '/mundo_senai/tags'=> fn()=> self::load('TagsController','index'),
-                '/mundo_senai/leituras'=> fn()=> self::load('RfidController','index'),
-                '/mundo_senai/api/rfid'=> fn()=> self::load('RfidController','pooling'),
-                '/mundo_senai/logout'=> fn()=> self::load('LoginController','logout'),
-                '/mundo_senai/caixas'=> fn()=> self::load('CaixasController','index'),
-                '/mundo_senai/users'=> fn()=> self::load('UserController','index')
+                '/mundo_senai/'         => fn() => self::load('HomeController', 'index'),
+                '/mundo_senai/login'    => fn() => self::load('LoginController', 'index'),
+                '/mundo_senai/tags'     => fn() => self::load('TagsController', 'index'),
+                '/mundo_senai/leituras' => fn() => self::load('RfidController', 'index'),
+                '/mundo_senai/api/rfid' => fn() => self::load('RfidController', 'pooling'),
+                '/mundo_senai/logout'   => fn() => self::load('LoginController', 'logout'),
+                '/mundo_senai/caixas'   => fn() => self::load('CaixasController', 'index'),
+                '/mundo_senai/users'    => fn() => self::load('UserController', 'index')
             ],
 
             'post' => [
-                '/mundo_senai/login'=> fn()=> self::load('LoginController','validate'),
-                '/mundo_senai/tags'=> fn()=> self::load('TagsController','search'),
-                '/mundo_senai/api/rfid'=> fn()=> self::load('RfidController','store'),
-                '/mundo_senai/tags/cadastro'=> fn()=> self::load('TagsController','create_tag'),
-                '/mundo_senai/tags/editar'=> fn()=> self::load('TagsController','editar'),
-                '/mundo_senai/tags/excluir'=> fn()=> self::load('TagsController','excluir'),
-                '/mundo_senai/caixas/cadastro'=> fn()=> self::load('CaixasController','cadastro')
+                '/mundo_senai/login'          => fn() => self::load('LoginController', 'validate'),
+                '/mundo_senai/tags'           => fn() => self::load('TagsController', 'search'),
+                '/mundo_senai/api/rfid'       => fn() => self::load('RfidController', 'store'),
+                '/mundo_senai/tags/cadastro'  => fn() => self::load('TagsController', 'create_tag'),
+                '/mundo_senai/tags/editar'    => fn() => self::load('TagsController', 'editar'),
+                '/mundo_senai/tags/excluir'   => fn() => self::load('TagsController', 'excluir'),
+                '/mundo_senai/caixas/cadastro'=> fn() => self::load('CaixasController', 'cadastro'),
+                '/mundo_senai/caixas/editar'  => fn() => self::load('CaixasController', 'editar'),
+                '/mundo_senai/caixas/deletar' => fn() => self::load('CaixasController', 'deletar')
             ]
         ];
     }
@@ -59,10 +62,10 @@ class Router {
             $uri = Helper::uri('path');
 
             if (!isset($routes[$request])){
-                throw new \Exception("Requst Metodo não existe.");
+                throw new \Exception("Request Metodo não existe.");
             }
 
-            if (!array_key_exists($uri,$routes[$request])){
+            if (!array_key_exists($uri, $routes[$request])){
                 throw new \Exception("A rota {$uri} não existe.");
             }
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use App\Models\TagsModel;
 use App\Models\CaixasModel;
 use App\Models\RegiaoModel;
@@ -20,62 +21,79 @@ class CaixasServices {
         $this->model = new CaixasModel();
         $this->regiao = new RegiaoModel();
         $this->processo = new ProcessoModel();
-
     }
 
-    public function cadastrar_caixa(int $destino_id, int $tag_uid,string $processo){
-
-        // $tag = $this->get_tag_id(($tag_uid));
-
-        try{
+    public function cadastrar_caixa(int $destino_id, int $tag_uid, string $processo) {
+        try {
             $insert = $this->model->create([
-            'id'=>null,
-            'tag_id'=>(int)$tag_uid,
-            'regiao_id'=>$destino_id,
-            'user_id'=>$_SESSION['user_id'],
-            'data_criada'=>date("Y-m-d H:i:s"),
-            'processo'=>strtolower(trim($processo))
+                'id'          => null,
+                'tag_id'      => (int)$tag_uid,
+                'regiao_id'   => $destino_id,
+                'user_id'     => $_SESSION['user_id'] ?? null,
+                'data_criada' => date("Y-m-d H:i:s"),
+                'processo'    => strtolower(trim($processo))
             ]);
-        }catch (Exception $e) {
-            
+        } catch (Exception $e) {
             throw new Exception($e->getMessage(), 2);
         }
 
         return $insert;
     }   
 
-    public function get_tag_id(string $uid){
-
-        $tag = $this->tags->find_by_field('uid',$uid);
-        return is_array($tag) ? $tag : [];
-
+    /**
+     * Atualiza o Destino (regiao_id) e o Processo de uma caixa existente
+     */
+    public function editar_caixa(int $id, int $destino_id, string $processo) {
+        try {
+            return $this->model->update($id, [
+                'regiao_id' => $destino_id,
+                'processo'  => strtolower(trim($processo))
+            ]);
+        } catch (Exception $e) {
+            throw new Exception("Erro ao editar caixa: " . $e->getMessage(), 2);
+        }
     }
 
-    public function get_regiao(int $regiao_id){
+    /**
+     * Remove a caixa da base de dados e desvincula a TAG
+     */
+    public function deletar_caixa(int $id) {
+        try {
+            // Se o seu model possuir o método delete
+            return $this->model->delete($id);
+        } catch (Exception $e) {
+            throw new Exception("Erro ao excluir caixa: " . $e->getMessage(), 2);
+        }
+    }
 
+    public function get_tag_id(string $uid) {
+        $tag = $this->tags->find_by_field('uid', $uid);
+        return is_array($tag) ? $tag : [];
+    }
+
+    public function get_regiao(int $regiao_id) {
         $regiao = $this->regiao->find($regiao_id);
         return empty($regiao) ? [] : $regiao;
     }
 
-    public function get_processo(int $processo_id){
-
+    public function get_processo(int $processo_id) {
         $processo = $this->processo->find(trim($processo_id));
         return empty($processo) ? [] : $processo;
     }
 
-    public function find_all(){
+    public function find_all() {
         return $this->model->find_all();
     }
 
-    public function find(int $id){
+    public function find(int $id) {
         return $this->model->find($id);
     }
 
-    public function get_tag(int $id){
+    public function get_tag(int $id) {
         return $this->tags->find($id);
     }
     
-    public function get_disponiveis(){
+    public function get_disponiveis() {
         return $this->tags->find_disponiveis() ?? [];
     }
 
@@ -87,21 +105,18 @@ class CaixasServices {
         $this->model->atualizar_peso_por_tag($tag_id, $peso);
     }
 
-    public function loader(mixed $search = null){
-
+    public function loader(mixed $search = null) {
+        $caixa = null;
         $tag_id = $this->get_tag_id($search);
 
-        if ($tag_id){
-            $caixa = $this->model->find_by_field("tag_id",$tag_id['id']);
+        if ($tag_id) {
+            $caixa = $this->model->find_by_field("tag_id", $tag_id['id']);
         }
 
-        if (is_numeric($search)){
+        if (is_numeric($search)) {
             $caixa = $this->model->find((int)$search);
         }
 
-        var_dump($caixa);
-        return [$caixa];
-        
-        
+        return $caixa ? [$caixa] : [];
     }
-}   
+}
