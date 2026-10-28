@@ -41,7 +41,7 @@ class RfidController extends Controller
             return;
         }
 
-        $rfid = $dados['rfid'] ?? null;
+        $rfid = trim($dados['rfid']) ?? null;
         $peso = $dados['peso'] ?? null;
 
         if (!$rfid) {

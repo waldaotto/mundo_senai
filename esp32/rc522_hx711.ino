@@ -179,7 +179,7 @@ bool fazerTara()
         hxErro = true;
         return false;
     }
-    balanca.tare();
+    balanca.tare(20);   // média de 20 leituras em vez de 10
     hxErro = false;
     return true;
 }
@@ -195,12 +195,11 @@ String ler_rfid()
 
     for (byte i = 0; i < rfrc522.uid.size; i++)
     {
-        uidLido.concat(String(rfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
-        uidLido.concat(String(rfrc522.uid.uidByte[i], HEX));
+        if (rfrc522.uid.uidByte[i] < 0x10) uidLido += "0";
+        uidLido += String(rfrc522.uid.uidByte[i], HEX);
     }
 
     uidLido.toUpperCase();
-    uidLido.trim();
 
     Serial.print("UID lido: ");
     Serial.println(uidLido);
@@ -291,6 +290,7 @@ void setup()
     Serial.println("Iniciando...");
 
     pinMode(BOTAO_TARA_PIN, INPUT_PULLUP);
+    pinMode(32,OUTPUT);
 
     // LCD: Wire.begin() com os pinos ANTES do lcd.init(), pois os pinos padrão
     // do I2C (21/22) estão ocupados pelo RFID.
@@ -307,6 +307,7 @@ void setup()
     Serial.println("Ajustando o zero da balanca (sem peso)...");
     lcdLinha(0, "Zerando balanca");
     lcdLinha(1, "Sem peso!");
+    delay(2000);              // deixa o HX711 e a fonte estabilizarem
     fazerTara();
 
     conectarWiFi();
@@ -432,6 +433,9 @@ void loop()
         {
             jaEnviado  = true;
             falhaEnvio = false;
+            digitalWrite(32,1);
+            delay(100);
+            digitalWrite(32,0);
             Serial.println("Enviado com sucesso. Retire o item para pesar outro.");
         }
         else if (codigo >= 400 && codigo < 500)
