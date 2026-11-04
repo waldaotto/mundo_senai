@@ -13,7 +13,7 @@ use PDOException;
  */
 abstract class Model{
 
-    protected PDO $cursor;
+    public PDO $cursor;
     protected $primaryKey = "id";
     /**
      * @var String deve ser sobrescrita na classe filha.

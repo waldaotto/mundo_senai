@@ -3,6 +3,10 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Services\RfidService;
 use App\Services\CaixasServices;
+use App\Models\RfidModel;
+use PDO;
+
+
 
 class RfidController extends Controller
  {
@@ -11,11 +15,13 @@ class RfidController extends Controller
     public mixed $caixasService;
     public mixed $last_insert;
     public int $last_id;
+    public mixed $model;
 
     public function __construct() {
         $this->service = new RfidService();
         $last = $this->service->model->ultima_rfid();
         $this->caixasService = new CaixasServices();
+        $this->model = new RfidModel();
     }
 
     public function index(){
@@ -139,5 +145,64 @@ class RfidController extends Controller
             'peso'=> $ultimo['peso'],
             'data_hora' => $ultimo['data_hora'],
         ]);
+    }
+
+    public function get_regiao_id(){
+        header('Content-Type: application/json; charset=utf-8');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            http_response_code(405);
+            echo json_encode(['erro' => 'metodo nao permitido']);
+            exit;
+        }
+
+        // PREENCHER: use a conexão que o seu Core/Model já fornece
+        $pdo = $this->model->cursor;
+
+        try {
+            // 1) última tag que passou
+            $passagem = $pdo->query(
+                "SELECT rfid
+                FROM passagem_tag
+                ORDER BY data_hora DESC, id DESC
+                LIMIT 1"
+            )->fetch(PDO::FETCH_ASSOC);
+
+            if (!$passagem) {
+                http_response_code(404);
+                echo json_encode(['erro' => 'nenhuma passagem de tag registrada']);
+                exit;
+            }
+
+            // 2) caixa não finalizada com essa tag
+            $stmt = $pdo->prepare(
+                "SELECT c.regiao_id
+                FROM caixa c
+                JOIN tags t ON t.id = c.tag_id
+                WHERE t.uid = :rfid
+                    AND c.processo <> 'finalizado'
+                ORDER BY c.id DESC
+                LIMIT 1"
+            );
+            $stmt->execute([':rfid' => $passagem['rfid']]);
+            $caixa = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$caixa) {
+                http_response_code(404);
+                echo json_encode(['erro' => 'tag nao esta em caixa ativa']);
+                exit;
+            }
+
+            if ($caixa['regiao_id'] === null) {
+                http_response_code(422);
+                echo json_encode(['erro' => 'caixa sem regiao']);
+                exit;
+            }
+
+            echo json_encode(['regiao_id' => (int) $caixa['regiao_id']]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['erro' => 'erro no banco']);
+        }
     }
  }
