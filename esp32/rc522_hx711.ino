@@ -1,12 +1,12 @@
 /*
   ESP32 + RFID (MFRC522) + Balança (HX711) + LCD 16x2 I2C
-  Envia JSON {"rfid":"XX XX XX XX","peso":300.25} ao servidor
+  Envia JSON {"rfid":"XXXXXXXX","peso":300.25} ao servidor
   somente quando a tag foi lida E o peso estiver estável.
 
   Conexões:
     MFRC522: SS -> GPIO21, RST -> GPIO22, SCK -> 18, MISO -> 19, MOSI -> 23
     HX711:   DT -> GPIO26, SCK -> GPIO27
-    Botão de tara: GPIO13 e GND (pull-up interno)
+    Botão de tara: GPIO13 e GND (pull-up interno, sem resistor externo)
     LCD I2C: SDA -> GPIO33, SCL -> GPIO25
              (GPIO35 NÃO serve para SDA: é só entrada, sem saída/pull-up)
 
@@ -33,7 +33,7 @@ MFRC522 rfrc522(SS_PIN, RST_PIN);
 const int LOADCELL_DOUT_PIN = 26;
 const int LOADCELL_SCK_PIN  = 27;
 const int BOTAO_TARA_PIN    = 13;
-float fatorCalibracao = 107;   // ajuste conforme sua calibração
+float fatorCalibracao = 107;   // recalibre com a placa de MDF já montada
 HX711 balanca;
 
 // LCD I2C 16x2
@@ -50,7 +50,13 @@ const char* URL_API    = "http://serversenai.local/mundo_senai/api/rfid";
 // Estabilidade do peso
 const float TOLERANCIA_G  = 10.0;  // variação máxima na janela (g)
 const int   N_AMOSTRAS    = 8;     // tamanho da janela
-const float PESO_MINIMO_G = 5.0;   // abaixo disso considera balança vazia
+const float PESO_MINIMO_G = 10.0;  // abaixo disso = balança vazia (use um valor
+                                   // menor que o item mais leve); também é a
+                                   // faixa em que o auto-zero pode corrigir
+
+// Auto-zero (corrige a deriva do zero com a balança vazia e parada)
+const float         ZERO_VARIACAO_G = 5.0;    // variação máx. na janela para considerar "parado"
+const unsigned long ZERO_TEMPO_MS   = 4000;   // tempo parado até corrigir
 
 // Outros tempos
 const unsigned long DEBOUNCE_TARA         = 300;    // ms
@@ -179,9 +185,49 @@ bool fazerTara()
         hxErro = true;
         return false;
     }
-    balanca.tare(20);   // média de 20 leituras em vez de 10
+    balanca.tare(20);   // média de 20 leituras
     hxErro = false;
     return true;
+}
+
+// Desloca o offset para o peso residual virar 0 (sem bloquear como tare())
+void ajustarZero(float residual_g)
+{
+    balanca.set_offset(balanca.get_offset() + (long)(residual_g * balanca.get_scale()));
+}
+
+// Chame com o peso SEM corte de negativos.
+// Se a leitura ficar parada perto de 0 por ZERO_TEMPO_MS, corrige o zero.
+void atualizarAutoZero(float pesoBruto)
+{
+    static float zMin, zMax, zSoma;
+    static int   zN = 0;
+    static unsigned long zInicio = 0;
+
+    // Fora da faixa: tem item na balança, não mexe no zero
+    if (fabs(pesoBruto) >= PESO_MINIMO_G) { zN = 0; return; }
+
+    if (zN == 0) { zMin = zMax = pesoBruto; zSoma = 0; zInicio = millis(); }
+    if (pesoBruto < zMin) zMin = pesoBruto;
+    if (pesoBruto > zMax) zMax = pesoBruto;
+    zSoma += pesoBruto;
+    zN++;
+
+    // Ainda oscilando: recomeça a janela
+    if (zMax - zMin > ZERO_VARIACAO_G) { zN = 0; return; }
+
+    if (millis() - zInicio >= ZERO_TEMPO_MS)
+    {
+        float media = zSoma / zN;
+        if (fabs(media) > 0.5)
+        {
+            ajustarZero(media);
+            Serial.print("Auto-zero: corrigido ");
+            Serial.print(media, 2);
+            Serial.println(" g");
+        }
+        zN = 0;
+    }
 }
 
 // ======================= RFID =======================
@@ -193,6 +239,7 @@ String ler_rfid()
 
     String uidLido = "";
 
+    // UID sem espaços, ex.: 0A1B2C3D
     for (byte i = 0; i < rfrc522.uid.size; i++)
     {
         if (rfrc522.uid.uidByte[i] < 0x10) uidLido += "0";
@@ -215,6 +262,7 @@ String ler_rfid()
 void conectarWiFi()
 {
     WiFi.mode(WIFI_STA);
+    WiFi.setSleep(false);          // evita picos periódicos de corrente (ruído no HX711)
     WiFi.setAutoReconnect(true);
     WiFi.begin(SSID, SENHA_WIFI);
 
@@ -290,7 +338,7 @@ void setup()
     Serial.println("Iniciando...");
 
     pinMode(BOTAO_TARA_PIN, INPUT_PULLUP);
-    pinMode(32,OUTPUT);
+    pinMode(32, OUTPUT);
 
     // LCD: Wire.begin() com os pinos ANTES do lcd.init(), pois os pinos padrão
     // do I2C (21/22) estão ocupados pelo RFID.
@@ -304,13 +352,17 @@ void setup()
 
     balanca.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
     balanca.set_scale(fatorCalibracao);
+
+    // Primeiro o Wi-Fi: o rádio muda o consumo e desloca o zero da balança.
+    conectarWiFi();
+
     Serial.println("Ajustando o zero da balanca (sem peso)...");
     lcdLinha(0, "Zerando balanca");
     lcdLinha(1, "Sem peso!");
-    delay(2000);              // deixa o HX711 e a fonte estabilizarem
+    delay(3000);                       // estabiliza fonte e HX711
+    if (balanca.wait_ready_timeout(3000))
+        balanca.read_average(5);       // descarta as primeiras leituras
     fazerTara();
-
-    conectarWiFi();
 
     ultimaLeituraOk = millis();
     Serial.println("Sistema pronto! Aproxime o item da balanca/leitor.");
@@ -380,8 +432,9 @@ void loop()
     ultimaLeituraOk = millis();
     hxErro = false;
 
-    float peso = balanca.get_units(2);
-    if (peso < 0) peso = 0;
+    float pesoBruto = balanca.get_units(2);   // sem cortar negativos
+    atualizarAutoZero(pesoBruto);
+    float peso = (pesoBruto < 0) ? 0 : pesoBruto;
     pesoAtual = peso;
 
     if (peso < PESO_MINIMO_G)
@@ -433,9 +486,9 @@ void loop()
         {
             jaEnviado  = true;
             falhaEnvio = false;
-            digitalWrite(32,1);
+            digitalWrite(32, 1);
             delay(100);
-            digitalWrite(32,0);
+            digitalWrite(32, 0);
             Serial.println("Enviado com sucesso. Retire o item para pesar outro.");
         }
         else if (codigo >= 400 && codigo < 500)
