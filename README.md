@@ -107,16 +107,18 @@ return [
 - [x] Conexão com banco de dados.
 - [x] Autenticação de usuário.
 - [x] Exibição de TAGs.
-- [ ] CRUD para TAGs.
-- [ ] Painel admin.
-- [ ] Painel de dashboard.
-- [ ] Outras funcionalidades.
+- [x] CRUD para TAGs.
+- [x] Painel usuarios.
+- [x] Painel de dashboard.
+- [x] CRUD de caixas.
+- [x] Integração com hardware.
+- [x] Extras.
 
 ## 📌 Status
 
-**Em Desenvolvimento**
+**Concluído: 13/11/2026**
 
-O projeto está em fase de desenvolvimento. As funcionalidades estão sendo implementadas progressivamente.
+O projeto está concluído. As funcionalidades esperadas para funcionamento do sistema estão atualizadas e funcionando.
 
 ## 📄 Licença
 
