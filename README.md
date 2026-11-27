@@ -13,7 +13,7 @@
 [![GitHub](https://img.shields.io/badge/Hospedagem-GitHub-181717?logo=github&logoColor=white)](https://github.com/)
 [![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)]()
 
-[![Preview Mundo Senai](Public/Assets/img/preview.png)
+[![Preview Mundo Senai](Public/Assets/img/mundosenai.png)
 
 ## 📦 Sobre o Projeto
 
