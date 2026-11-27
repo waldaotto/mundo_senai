@@ -13,6 +13,8 @@
 [![GitHub](https://img.shields.io/badge/Hospedagem-GitHub-181717?logo=github&logoColor=white)](https://github.com/)
 [![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)]()
 
+[![Preview Mundo Senai](Public/Assets/img/preview.png)
+
 ## 📦 Sobre o Projeto
 
 Aplicação web desenvolvida para o **Mundo Senai 2026**, com a finalidade de monitorar uma esteira de produtos com **RFID**.
